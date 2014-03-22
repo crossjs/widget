@@ -20,8 +20,7 @@ var $ = require('$');
  * @class Aspect
  * @constructor
  */
-var Aspect = function () {
-};
+var Aspect = function () { };
 
 Aspect.prototype = {
 

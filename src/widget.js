@@ -13,6 +13,11 @@ var /*$ = require('$'),*/
 
   Aspect = require('./aspect').prototype;
 
+var defaults = {
+  element: '<div class="ue-component"></div>',
+  container: 'body'
+};
+
 // TODO: 检查是否有内存泄漏发生
 
 /**
@@ -56,27 +61,61 @@ var Widget = Class.create(Events, Aspect, {
       this.on(options.events);
     }
 
-    this.options = options;
+    this.options = $.extend(options, defaults);
 
     // this.UI = {
     //   'default': {}
     // };
+    //
+
+    this.setup();
   },
 
   setup: function () {
   },
 
+  state: function (state) {
+    if (state === undefined) {
+      return this.__state;
+    }
+
+    this.__state = state;
+    return this;
+  },
+
   render: function () {
-    // this.element
+    var options = this.options;
+
+    if (!this.rendered) {
+      this.container = $(options.container);
+      this.element = $(options.element);
+      // 如果有模板
+      if (options.template) {
+        this.element.html(options.template(options.data, options.helpers));
+      }
+
+      this.rendered = true;
+    }
+
+    this.container.append(this.element);
   },
 
   destroy: function () {
-    // 移除事件绑定
+    // 移除事件
     this.off();
+
+    // 移除属性
+    for (var p in this) {
+      if (this.hasOwnProperty(p)) {
+        delete this[p];
+      }
+    }
+
+    this.destroy = function() { };
   }
 
 });
 
-return Widget;
+module.exports = Widget;
 
 });
