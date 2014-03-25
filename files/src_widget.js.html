@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>src\widget.js - widget</title>
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap-theme.css">
+  <link rel="stylesheet" href="../assets/vendor/prettify/prettify.css">
+  <link rel="stylesheet" href="../assets/css/yuidoc-bootstrap.css">
+  <link rel="shortcut icon" type="image/png" href="../assets/favicon.png?v=1">
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="../index.html">widget</a>
+  </div>
+  <div class="collapse navbar-collapse" id="navbar-collapse">
+    <p class="navbar-text navbar-right">v1.0.0</p>
+  </div>
+</nav>
+
+<div class="container" id="main">
+  <div class="row">
+    <div class="col-md-3">
+    <div id="sidebar">
+  <ul id="main-nav" class="nav nav-tabs" style="margin-bottom:0;">
+    <li><a href="#classes" data-toggle="tab">Classes</a></li>
+    <li class="active"><a href="#modules" data-toggle="tab">Modules</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane" id="classes">
+      <ul id="api-classes" class="nav nav-list">
+        
+          <li><a href="../classes/Aspect.html">Aspect</a></li>
+        
+          <li><a href="../classes/Widget.html">Widget</a></li>
+        
+      </ul>
+    </div>
+
+    <div class="tab-pane active" id="modules">
+      <ul id="api-modules" class="nav nav-list">
+        
+          <li><a href="../modules/Widget.html">Widget</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <div class="col-md-9">
+      <form id="options-form" class="form-inline pull-right">
+  Show:
+  <label for="api-show-inherited" class="checkbox">
+    <input type="checkbox" id="api-show-inherited" checked="checked">
+    Inherited
+  </label>
+
+  <label for="api-show-protected" class="checkbox">
+    <input type="checkbox" id="api-show-protected" checked="checked">
+    Protected
+  </label>
+
+  <label for="api-show-private" class="checkbox">
+    <input type="checkbox" id="api-show-private" checked="checked">
+    Private
+  </label>
+  <label for="api-show-deprecated" class="checkbox">
+    <input type="checkbox" id="api-show-deprecated" checked="checked">
+    Deprecated
+  </label>
+
+</form>
+
+
+      <div class="apidocs">
+        <div id="docs-main">
+          <div class="content">
+            <div class="page-header">
+    <h1>src\widget.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+define(function (require, exports, module) {
+
+/**
+ * 组件基类
+ *
+ * @module Widget
+ */
+
+&#x27;use strict&#x27;;
+
+var $ = require(&#x27;$&#x27;),
+  Class = require(&#x27;class&#x27;),
+  Events = require(&#x27;events&#x27;).prototype,
+
+  Aspect = require(&#x27;./aspect&#x27;).prototype;
+
+var DELEGATE_SPLITTER = /^(\S+)\s*(.*)$/,
+  DELEGATE_NAMESPACE = &#x27;.delegate-widget-&#x27;;
+
+// TODO: 检查是否有内存泄漏发生
+
+var defaults = {
+  // TODO: ue-component 改成 pandora 之类的，以与旧版组件做区别？
+  element: &#x27;&lt;div class=&quot;ue-component&quot;&gt;&lt;/div&gt;&#x27;,
+  container: &#x27;body&#x27;
+};
+
+/**
+ * 组件基类
+ *
+ * 扩展 Events 与 Aspect (AOP)
+ *
+ * @class Widget
+ * @constructor
+ * @requires Events
+ * @requires Aspect
+ *
+ * @example
+ * &#x60;&#x60;&#x60;
+ * // 创建子类
+ * var PersonWidget = Widget.extend({
+ *   setup: function () {
+ *     // 通知事件 &#x60;setup&#x60;
+ *     this.fire(&#x27;setup&#x27;, this.option(&#x27;name&#x27;), this.option(&#x27;age&#x27;));
+ *   }
+ * });
+ * // 创建子类实例
+ * var tom = new PersonWidget({
+ *   name: &#x27;Tom&#x27;,
+ *   age: 21,
+ *   // 订阅事件
+ *   events: {
+ *     // &#x60;setup&#x60;
+ *     setup: function (e, name, age) {
+ *       // e === &#x27;setup&#x27;
+ *       // name === &#x27;Tom&#x27;
+ *       // age === 21
+ *       // this === tom
+ *     },
+ *     // AOP &#x60;before:setup&#x60;
+ *     &#x27;before:setup&#x27;: function (e) {
+ *       // 执行 &#x60;setup&#x60; 方法前执行
+ *       // 此处返回 &#x60;false&#x60; 将阻止 &#x60;setup&#x60; 方法执行
+ *     },
+ *     // AOP &#x60;before:setup&#x60;
+ *     &#x27;before:setup&#x27;: function (e) {
+ *       // 执行 &#x60;setup&#x60; 方法后执行
+ *       // 如果 &#x60;setup&#x60; 方法被阻止，就不会执行到这里
+ *     }
+ *   },
+ *   // 代理事件
+ *   delegates: {
+ *     &#x27;click&#x27;: function (e) {
+ *       // e.target === this.element[0]
+ *       // this === tom
+ *     },
+ *     &#x27;mouseover .avatar&#x27;: function (e) {
+ *       // 鼠标悬停在 element 里的 &#x60;.avatar&#x60; 元素
+ *     }
+ *   }
+ * });
+ * &#x60;&#x60;&#x60;
+ */
+var Widget = Class.create(Events, Aspect, {
+
+  /**
+   * 初始化函数，将自动执行；实现事件自动订阅与初始化组件参数
+   *
+   * @method initialize
+   * @param {Object} options 组件参数
+   */
+  initialize: function (options) {
+    options || (options = {});
+
+    if (options.events) {
+
+      // 初始化 events
+      $.each(options.events, $.proxy(function (event, callback) {
+        var match = /^(before|after):(\w+)$/.exec(event);
+        if (match) {
+          // AOP
+          this[match[1]](match[2], callback);
+        } else {
+          // Subscriber
+          this.on(event, callback);
+        }
+      }, this));
+    }
+
+    // 初始化组件参数，只读
+    this.__options = $.extend(true, {}, defaults, this.defaults, options);
+
+    // this.UI = {
+    //   &#x27;default&#x27;: {}
+    // };
+
+    this.uniqueId = uniqueId();
+
+    this.setup();
+
+    // this.fire(&#x27;init&#x27;);
+  },
+
+  /**
+   * 默认参数，预留用于子类覆盖
+   *
+   * @property {Object} defaults
+   * @type {Object}
+   */
+  defaults: {},
+
+  /**
+   * 自动执行的设置函数，预留用于子类覆盖
+   *
+   * @method setup
+   */
+  setup: function () {
+  },
+
+  /**
+   * 存取组件状态
+   *
+   * @method state
+   * @param {Number} [state] 状态值
+   * @return {Mixed} 当前状态值或当前实例
+   */
+  state: function (state) {
+    if (state === undefined) {
+      return this.__state;
+    }
+
+    this.__state = state;
+    return this;
+  },
+
+  /**
+   * 获取初始化后的组件参数
+   *
+   * @method option
+   * @param {String} [key] 键
+   * @return {Mixed} 整个参数列表或指定参数值
+   */
+  option: function (key) {
+    var options = this.__options;
+    return ((key === undefined) ? options :
+      (options.hasOwnProperty(key) ? options[key] : undefined));
+  },
+
+  /**
+   * 存取组件数据；用于管理动态生成的数据，如服务端返回
+   *
+   * @method data
+   * @param {String} [key] 键
+   * @param {Mixed} [value] 值
+   * @return {Mixed} 整个数据、指定键值或当前实例
+   */
+  data: function (key, value) {
+    var datas = this.__datas || (this.__datas = {});
+
+    if (key === undefined) {
+      return datas;
+    }
+
+    if ($.isPlainObject(key)) {
+      $.extend(true, datas, key);
+    } else {
+
+      if (value === undefined) {
+        return (datas.hasOwnProperty(key) ? datas[key] : undefined);
+      } else {
+        datas[key] = value;
+      }
+    }
+
+    return this;
+  },
+
+  /**
+   * 事件代理，绑定在 element 上
+   *
+   * @method delegate
+   * @param {Object|Function} [delegates] 代理事件列表
+   * @return {Object} 当前实例
+   */
+  delegate: function (delegates) {
+    var self = this;
+
+    delegates || (delegates = this.option(&#x27;delegates&#x27;));
+
+    if (!delegates) {
+      return this;
+    }
+
+    if (typeof delegates === &#x27;function&#x27;) {
+      delegates = delegates.call(this);
+    }
+
+    $.each(delegates, function (key, callback) {
+      var match = key.match(DELEGATE_SPLITTER),
+        event = match[1] + DELEGATE_NAMESPACE + self.uniqueId;
+
+      if (match[2]) {
+        self.element.on(event, match[2], $.proxy(callback, self));
+      } else {
+        self.element.on(event, $.proxy(callback, self));
+      }
+    });
+
+    return this;
+  },
+
+  /**
+   * 插入elemnt到container
+   * @method render
+   */
+  render: function () {
+    if (!this.rendered) {
+      this.container = $(this.option(&#x27;container&#x27;));
+      this.element = $(this.option(&#x27;element&#x27;));
+
+      // element 事件代理
+      this.delegate();
+
+      this.rendered = true;
+    }
+
+    this.container.append(this.element);
+  },
+
+  /**
+   * 销毁当前组件对象
+   * @method destroy
+   */
+  destroy: function () {
+    var prop;
+
+    // 移除事件订阅
+    this.off();
+
+    // 移除 element 事件代理
+    this.element.off(DELEGATE_NAMESPACE + this.uniqueId);
+
+    // 从DOM中移除element
+    this.element.remove();
+
+    // 移除属性
+    for (prop in this) {
+      if (this.hasOwnProperty(prop)) {
+        delete this[prop];
+      }
+    }
+
+    this.destroy = function() { };
+  }
+
+});
+
+var uniqueId = (function () {
+  var ids = {};
+  return function () {
+    var id = Math.random().toString(36).substr(2);
+    if (ids[id]) {
+      return uniqueId();
+    }
+    ids[id] = true;
+    return id;
+  };
+})();
+
+module.exports = Widget;
+
+});
+
+    </pre>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/vendor/jquery/jquery.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>

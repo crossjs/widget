@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>src\aspect.js - widget</title>
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap-theme.css">
+  <link rel="stylesheet" href="../assets/vendor/prettify/prettify.css">
+  <link rel="stylesheet" href="../assets/css/yuidoc-bootstrap.css">
+  <link rel="shortcut icon" type="image/png" href="../assets/favicon.png?v=1">
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="../index.html">widget</a>
+  </div>
+  <div class="collapse navbar-collapse" id="navbar-collapse">
+    <p class="navbar-text navbar-right">v1.0.0</p>
+  </div>
+</nav>
+
+<div class="container" id="main">
+  <div class="row">
+    <div class="col-md-3">
+    <div id="sidebar">
+  <ul id="main-nav" class="nav nav-tabs" style="margin-bottom:0;">
+    <li><a href="#classes" data-toggle="tab">Classes</a></li>
+    <li class="active"><a href="#modules" data-toggle="tab">Modules</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane" id="classes">
+      <ul id="api-classes" class="nav nav-list">
+        
+          <li><a href="../classes/Aspect.html">Aspect</a></li>
+        
+          <li><a href="../classes/Widget.html">Widget</a></li>
+        
+      </ul>
+    </div>
+
+    <div class="tab-pane active" id="modules">
+      <ul id="api-modules" class="nav nav-list">
+        
+          <li><a href="../modules/Widget.html">Widget</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <div class="col-md-9">
+      <form id="options-form" class="form-inline pull-right">
+  Show:
+  <label for="api-show-inherited" class="checkbox">
+    <input type="checkbox" id="api-show-inherited" checked="checked">
+    Inherited
+  </label>
+
+  <label for="api-show-protected" class="checkbox">
+    <input type="checkbox" id="api-show-protected" checked="checked">
+    Protected
+  </label>
+
+  <label for="api-show-private" class="checkbox">
+    <input type="checkbox" id="api-show-private" checked="checked">
+    Private
+  </label>
+  <label for="api-show-deprecated" class="checkbox">
+    <input type="checkbox" id="api-show-deprecated" checked="checked">
+    Deprecated
+  </label>
+
+</form>
+
+
+      <div class="apidocs">
+        <div id="docs-main">
+          <div class="content">
+            <div class="page-header">
+    <h1>src\aspect.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+define(function (require, exports, module) {
+
+/**
+ * 组件基类
+ *
+ * @module Widget
+ */
+
+&#x27;use strict&#x27;;
+
+var $ = require(&#x27;$&#x27;);
+
+/**
+ * Aspect
+ *
+ * http://http://en.wikipedia.org/wiki/Aspect-oriented_programming
+ *
+ * @class Aspect
+ * @constructor
+ */
+var Aspect = function () { };
+
+Aspect.prototype = {
+
+  /**
+   * 方法执行前执行，&#x60;callback&#x60;返回&#x60;false&#x60;则阻止原函数执行
+   * @method before
+   * @param {String} methodName 方法名
+   * @param {Function} callback 回调函数
+   * @return {Object} 当前实例
+   */
+  before: function (methodName, callback) {
+    return wave.call(this, &#x27;before&#x27;, methodName, callback);
+  },
+
+  /**
+   * 方法执行后执行
+   * @method after
+   * @param {String} methodName 方法名
+   * @param {Function} callback 回调函数
+   * @return {Object} 当前实例
+   */
+  after: function (methodName, callback) {
+    return wave.call(this, &#x27;after&#x27;, methodName, callback);
+  }
+
+};
+
+function wave (when, methodName, callback) {
+  /*jshint validthis: true*/
+  var method = this[methodName];
+
+  if (method) {
+    if (!method.__aspected) {
+      wrap.call(this, methodName);
+    }
+
+    this.on(when + &#x27;:&#x27; + methodName, callback);
+  }
+
+  return this;
+}
+
+function wrap (methodName) {
+  /*jshint validthis: true*/
+  var method = this[methodName];
+
+  this[methodName] = function () {
+    var args = Array.prototype.slice.call(arguments),
+      result;
+
+    // before
+    if (this.fire.apply(this, [&#x27;before:&#x27; + methodName].concat(args)) === false) {
+      return;
+    }
+
+    // method
+    result = method.apply(this, arguments);
+
+    // after
+    this.fire.apply(this, [&#x27;after:&#x27; + methodName, result].concat(args));
+
+    return result;
+  };
+
+  this[methodName].__aspected = true;
+}
+
+module.exports = Aspect;
+
+});
+
+    </pre>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/vendor/jquery/jquery.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>
