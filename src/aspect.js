@@ -1,14 +1,9 @@
 define(function (require, exports, module) {
 
 /**
- * Aspect
+ * 组件基类
  *
- * http://http://en.wikipedia.org/wiki/Aspect-oriented_programming
- * https://github.com/aralejs/base/blob/master/src/aspect.js
- *
- * @module Aspect
- *
- * @requires Events
+ * @module Widget
  */
 
 'use strict';
@@ -17,6 +12,9 @@ var $ = require('$');
 
 /**
  * Aspect
+ *
+ * http://http://en.wikipedia.org/wiki/Aspect-oriented_programming
+ *
  * @class Aspect
  * @constructor
  */
@@ -25,32 +23,30 @@ var Aspect = function () { };
 Aspect.prototype = {
 
   /**
-   * 方法执行前执行
+   * 方法执行前执行，`callback`返回`false`则阻止原函数执行
    * @method before
-   * @param {String} methodName 事件名
+   * @param {String} methodName 方法名
    * @param {Function} callback 回调函数
-   * @param {Object} context 上下文
    * @return {Object} 当前实例
    */
-  before: function (methodName, callback, context) {
-    return wave.call(this, 'before', methodName, callback, context);
+  before: function (methodName, callback) {
+    return wave.call(this, 'before', methodName, callback);
   },
 
   /**
    * 方法执行后执行
    * @method after
-   * @param {String} methodName 事件名
+   * @param {String} methodName 方法名
    * @param {Function} callback 回调函数
-   * @param {Object} context 上下文
    * @return {Object} 当前实例
    */
-  after: function (methodName, callback, context) {
-    return wave.call(this, 'after', methodName, callback, context);
+  after: function (methodName, callback) {
+    return wave.call(this, 'after', methodName, callback);
   }
 
 };
 
-function wave (when, methodName, callback, context) {
+function wave (when, methodName, callback) {
   /*jshint validthis: true*/
   var method = this[methodName];
 
@@ -59,16 +55,16 @@ function wave (when, methodName, callback, context) {
       wrap.call(this, methodName);
     }
 
-    this.on(when + ':' + methodName, callback, context);
+    this.on(when + ':' + methodName, callback);
   }
 
   return this;
 }
 
-// wrap
 function wrap (methodName) {
   /*jshint validthis: true*/
   var method = this[methodName];
+
   this[methodName] = function () {
     var args = Array.prototype.slice.call(arguments),
       result;
