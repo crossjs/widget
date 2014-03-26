@@ -161,6 +161,26 @@
         {
             "file": "src\\widget.js",
             "line": 132,
+            "description": "寻找 element 后代",
+            "itemtype": "method",
+            "name": "$",
+            "params": [
+                {
+                    "name": "selector",
+                    "description": "选择符",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "jQuery 包装的 DOM 节点",
+                "type": "Object"
+            },
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 143,
             "description": "自动执行的设置函数，预留用于子类覆盖",
             "itemtype": "method",
             "name": "setup",
@@ -169,7 +189,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 140,
+            "line": 151,
             "description": "存取组件状态",
             "itemtype": "method",
             "name": "state",
@@ -190,7 +210,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 156,
+            "line": 167,
             "description": "获取初始化后的组件参数",
             "itemtype": "method",
             "name": "option",
@@ -211,7 +231,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 169,
+            "line": 180,
             "description": "存取组件数据；用于管理动态生成的数据，如服务端返回",
             "itemtype": "method",
             "name": "data",
@@ -238,7 +258,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 198,
+            "line": 209,
             "description": "事件代理，绑定在 element 上",
             "itemtype": "method",
             "name": "delegate",
@@ -259,7 +279,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 232,
+            "line": 243,
             "description": "插入elemnt到container",
             "itemtype": "method",
             "name": "render",
@@ -268,7 +288,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 250,
+            "line": 261,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
