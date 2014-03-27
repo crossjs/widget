@@ -288,7 +288,27 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 271,
+            "line": 259,
+            "description": "`element` 所在的 `document` 对象",
+            "itemtype": "property",
+            "name": "document",
+            "type": "Object",
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 266,
+            "description": "`element` 所在的 `window` 对象",
+            "itemtype": "property",
+            "name": "viewport",
+            "type": "Object",
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 279,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
