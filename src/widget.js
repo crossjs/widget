@@ -256,10 +256,18 @@ var Widget = Class.create(Events, Aspect, {
       // 插入到容器中
       this.container.append(this.element);
 
-      // document
+      /**
+       * `element` 所在的 `document` 对象
+       *
+       * @property {Object} document
+       */
       this.document = this.element.prop('ownerDocument');
 
-      // viewport
+      /**
+       * `element` 所在的 `window` 对象
+       *
+       * @property {Object} viewport
+       */
       this.viewport = (function (doc) {
         return doc.defaultView || doc.parentWindow;
       })(this.document);
