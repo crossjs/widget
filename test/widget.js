@@ -62,6 +62,19 @@ define(function (require, exports) {
     widgetA.destroy();
   });
 
+  test('$', function() {
+    var WidgetA = Widget.extend({
+      setup: function () {
+        this.render();
+        this.element.html('<p>123</p>');
+      }
+    });
+    var widgetA = new WidgetA();
+    equal( widgetA.$('p').length, 1, '' );
+    // for next tests
+    widgetA.destroy();
+  });
+
   test('destroy', function() {
     var WidgetA = Widget.extend({
     });

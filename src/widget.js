@@ -130,6 +130,17 @@ var Widget = Class.create(Events, Aspect, {
   defaults: {},
 
   /**
+   * 寻找 element 后代
+   *
+   * @method $
+   * @param {Mixed} selector 选择符
+   * @return {Object} jQuery 包装的 DOM 节点
+   */
+  $: function (selector) {
+    return this.element.find(selector);
+  },
+
+  /**
    * 自动执行的设置函数，预留用于子类覆盖
    *
    * @method setup
