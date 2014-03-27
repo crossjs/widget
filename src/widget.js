@@ -114,11 +114,17 @@ var Widget = Class.create(Events, Aspect, {
     //   'default': {}
     // };
 
+    // 容器与元素
+    this.container = $(this.option('container'));
+    this.element = $(this.option('element'));
+
+    // 初始化事件代理
+    this.delegate();
+
+    // 实例唯一ID
     this.uniqueId = uniqueId();
 
     this.setup();
-
-    // this.fire('init');
   },
 
   /**
@@ -246,16 +252,20 @@ var Widget = Class.create(Events, Aspect, {
    */
   render: function () {
     if (!this.rendered) {
-      this.container = $(this.option('container'));
-      this.element = $(this.option('element'));
 
-      // element 事件代理
-      this.delegate();
+      // 插入到容器中
+      this.container.append(this.element);
+
+      // document
+      this.document = this.element.prop('ownerDocument');
+
+      // viewport
+      this.viewport = (function (doc) {
+        return doc.defaultView || doc.parentWindow;
+      })(this.document);
 
       this.rendered = true;
     }
-
-    this.container.append(this.element);
   },
 
   /**
