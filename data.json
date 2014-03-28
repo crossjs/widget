@@ -150,7 +150,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 127,
+            "line": 108,
             "description": "默认参数，子类自动继承并覆盖",
             "itemtype": "property",
             "name": "defaults",
@@ -160,7 +160,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 139,
+            "line": 120,
             "description": "寻找 element 后代",
             "itemtype": "method",
             "name": "$",
@@ -180,7 +180,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 150,
+            "line": 131,
             "description": "自动执行的设置函数，预留用于子类覆盖",
             "itemtype": "method",
             "name": "setup",
@@ -189,7 +189,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 158,
+            "line": 139,
             "description": "存取组件状态",
             "itemtype": "method",
             "name": "state",
@@ -210,7 +210,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 174,
+            "line": 155,
             "description": "获取初始化后的组件参数",
             "itemtype": "method",
             "name": "option",
@@ -231,7 +231,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 187,
+            "line": 168,
             "description": "存取组件数据；用于管理动态生成的数据，如服务端返回",
             "itemtype": "method",
             "name": "data",
@@ -258,10 +258,31 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 216,
+            "line": 197,
+            "description": "事件订阅，以及AOP",
+            "itemtype": "method",
+            "name": "initEvents",
+            "params": [
+                {
+                    "name": "events",
+                    "description": "订阅事件列表",
+                    "type": "Object|Function",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "当前实例",
+                "type": "Object"
+            },
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 227,
             "description": "事件代理，绑定在 element 上",
             "itemtype": "method",
-            "name": "delegate",
+            "name": "initDelegates",
             "params": [
                 {
                     "name": "delegates",
@@ -279,7 +300,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 250,
+            "line": 261,
             "description": "插入elemnt到container",
             "itemtype": "method",
             "name": "render",
@@ -288,7 +309,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 260,
+            "line": 274,
             "description": "`element` 所在的 `document` 对象",
             "itemtype": "property",
             "name": "document",
@@ -298,7 +319,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 267,
+            "line": 281,
             "description": "`element` 所在的 `window` 对象",
             "itemtype": "property",
             "name": "viewport",
@@ -308,7 +329,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 280,
+            "line": 294,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
