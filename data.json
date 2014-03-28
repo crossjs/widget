@@ -38,7 +38,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "src\\widget.js",
-            "line": 28,
+            "line": 22,
             "description": "组件基类"
         }
     },
@@ -69,7 +69,7 @@
             "module": "Widget",
             "namespace": "",
             "file": "src\\widget.js",
-            "line": 28,
+            "line": 22,
             "description": "组件基类\n\n扩展 Events 与 Aspect (AOP)",
             "is_constructor": 1,
             "requires": [
@@ -134,7 +134,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 86,
+            "line": 80,
             "description": "初始化函数，将自动执行；实现事件自动订阅与初始化组件参数",
             "itemtype": "method",
             "name": "initialize",
@@ -150,8 +150,8 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 130,
-            "description": "默认参数，预留用于子类覆盖",
+            "line": 126,
+            "description": "默认参数，子类自动继承并覆盖",
             "itemtype": "property",
             "name": "defaults",
             "type": "{Object}",

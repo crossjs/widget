@@ -111,12 +111,6 @@ var DELEGATE_SPLITTER = /^(\S+)\s*(.*)$/,
 
 // TODO: 检查是否有内存泄漏发生
 
-var defaults = {
-  // TODO: ue-component 改成 pandora 之类的，以与旧版组件做区别？
-  element: &#x27;&lt;div class=&quot;ue-component&quot;&gt;&lt;/div&gt;&#x27;,
-  container: &#x27;body&#x27;
-};
-
 /**
  * 组件基类
  *
@@ -199,8 +193,10 @@ var Widget = Class.create(Events, Aspect, {
       }, this));
     }
 
+    // 合并继承的 &#x60;defaults&#x60;
+
     // 初始化组件参数，只读
-    this.__options = $.extend(true, {}, defaults, this.defaults, options);
+    this.__options = mergeDefaults(this, options);
 
     // this.UI = {
     //   &#x27;default&#x27;: {}
@@ -220,12 +216,16 @@ var Widget = Class.create(Events, Aspect, {
   },
 
   /**
-   * 默认参数，预留用于子类覆盖
+   * 默认参数，子类自动继承并覆盖
    *
    * @property {Object} defaults
    * @type {Object}
    */
-  defaults: {},
+  defaults: {
+    // TODO: ue-component 改成 pandora 之类的，以与旧版组件做区别？
+    element: &#x27;&lt;div class=&quot;ue-component&quot;&gt;&lt;/div&gt;&#x27;,
+    container: &#x27;body&#x27;
+  },
 
   /**
    * 寻找 element 后代
@@ -395,6 +395,23 @@ var Widget = Class.create(Events, Aspect, {
   }
 
 });
+
+function mergeDefaults(instance, options) {
+  var arr = [options],
+    proto = instance.constructor.prototype;
+
+  while (proto) {
+    if (proto.hasOwnProperty(&#x27;defaults&#x27;)) {
+      arr.unshift(proto.defaults);
+    }
+
+    proto = proto.constructor.superclass;
+  }
+
+  arr.unshift(true, {});
+
+  return $.extend.apply(null, arr);
+}
 
 var uniqueId = (function () {
   var ids = {};
