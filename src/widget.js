@@ -112,7 +112,8 @@ var Widget = Class.create(Events, Aspect, {
 
     // 容器与元素
     this.container = $(this.option('container'));
-    this.element = $(this.option('element'));
+    this.element = $(this.option('element'))
+        .addClass(this.option('classPrefix'));
 
     // 初始化事件代理
     this.delegate();
