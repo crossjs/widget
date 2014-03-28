@@ -150,7 +150,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 126,
+            "line": 127,
             "description": "默认参数，子类自动继承并覆盖",
             "itemtype": "property",
             "name": "defaults",
@@ -160,7 +160,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 138,
+            "line": 139,
             "description": "寻找 element 后代",
             "itemtype": "method",
             "name": "$",
@@ -180,7 +180,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 149,
+            "line": 150,
             "description": "自动执行的设置函数，预留用于子类覆盖",
             "itemtype": "method",
             "name": "setup",
@@ -189,7 +189,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 157,
+            "line": 158,
             "description": "存取组件状态",
             "itemtype": "method",
             "name": "state",
@@ -210,7 +210,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 173,
+            "line": 174,
             "description": "获取初始化后的组件参数",
             "itemtype": "method",
             "name": "option",
@@ -231,7 +231,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 186,
+            "line": 187,
             "description": "存取组件数据；用于管理动态生成的数据，如服务端返回",
             "itemtype": "method",
             "name": "data",
@@ -258,7 +258,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 215,
+            "line": 216,
             "description": "事件代理，绑定在 element 上",
             "itemtype": "method",
             "name": "delegate",
@@ -279,7 +279,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 249,
+            "line": 250,
             "description": "插入elemnt到container",
             "itemtype": "method",
             "name": "render",
@@ -288,7 +288,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 259,
+            "line": 260,
             "description": "`element` 所在的 `document` 对象",
             "itemtype": "property",
             "name": "document",
@@ -298,7 +298,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 266,
+            "line": 267,
             "description": "`element` 所在的 `window` 对象",
             "itemtype": "property",
             "name": "viewport",
@@ -308,7 +308,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 279,
+            "line": 280,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
