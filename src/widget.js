@@ -84,27 +84,8 @@ var Widget = Class.create(Events, Aspect, {
    * @param {Object} options 组件参数
    */
   initialize: function (options) {
-    options || (options = {});
-
-    if (options.events) {
-
-      // 初始化 events
-      $.each(options.events, $.proxy(function (event, callback) {
-        var match = /^(before|after):(\w+)$/.exec(event);
-        if (match) {
-          // AOP
-          this[match[1]](match[2], callback);
-        } else {
-          // Subscriber
-          this.on(event, callback);
-        }
-      }, this));
-    }
-
-    // 合并继承的 `defaults`
-
     // 初始化组件参数，只读
-    this.__options = mergeDefaults(this, options);
+    this.__options = mergeDefaults(this, options || {});
 
     // this.UI = {
     //   'default': {}
@@ -115,8 +96,8 @@ var Widget = Class.create(Events, Aspect, {
     this.element = $(this.option('element'))
         .addClass(this.option('classPrefix'));
 
-    // 初始化事件代理
-    this.delegate();
+    // 初始化事件订阅
+    this.initEvents();
 
     // 实例唯一ID
     this.uniqueId = uniqueId();
@@ -214,13 +195,43 @@ var Widget = Class.create(Events, Aspect, {
   },
 
   /**
+   * 事件订阅，以及AOP
+   *
+   * @method initEvents
+   * @param {Object|Function} [events] 订阅事件列表
+   * @return {Object} 当前实例
+   */
+  initEvents: function (events) {
+    var self = this;
+
+    events || (events = this.option('events'));
+
+    if (!events) {
+      return this;
+    }
+
+    $.each(events, function (event, callback) {
+      var match = /^(before|after):(\w+)$/.exec(event);
+      if (match) {
+        // AOP
+        self[match[1]](match[2], callback);
+      } else {
+        // Subscriber
+        self.on(event, callback);
+      }
+    });
+
+    return this;
+  },
+
+  /**
    * 事件代理，绑定在 element 上
    *
-   * @method delegate
+   * @method initDelegates
    * @param {Object|Function} [delegates] 代理事件列表
    * @return {Object} 当前实例
    */
-  delegate: function (delegates) {
+  initDelegates: function (delegates) {
     var self = this;
 
     delegates || (delegates = this.option('delegates'));
@@ -256,6 +267,9 @@ var Widget = Class.create(Events, Aspect, {
 
       // 插入到容器中
       this.container.append(this.element);
+
+      // 初始化事件代理
+      this.initDelegates();
 
       /**
        * `element` 所在的 `document` 对象
