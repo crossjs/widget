@@ -1,6 +1,6 @@
 /*
- * class
- * https://github.com/crossjs/class
+ * widget
+ * https://github.com/crossjs/widget
  *
  * Copyright (c) 2014 crossjs
  * Licensed under the MIT license.
@@ -16,6 +16,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
+
+    sea: 'sea-modules/<%= pkg.family %>/<%= pkg.name %>/<%= pkg.version %>/',
 
     jshint: {
       files: ['src/*.js'],
@@ -79,12 +81,30 @@ module.exports = function(grunt) {
         files: {
           src: ['.build/**']
         }
+      },
+      sea: {
+        files: {
+          src: ['<%= sea %>**']
+        }
       }
     },
 
     copy: {
       doc: {
-        files: [ {expand: true, cwd: 'doc/', src: ['**'], dest: 'gh-pages/'} ]
+        files: [{
+          expand: true,
+          cwd: 'doc/',
+          src: ['**'],
+          dest: 'gh-pages/'
+        }]
+      },
+      sea: {
+        files: [{
+          expand: true,
+          cwd: 'dist/',
+          src: ['**'],
+          dest: '<%= sea %>'
+        }]
       }
     },
 
@@ -99,8 +119,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'src/',
           src: ['*.js'],
-          dest: '.build/',
-          ext: '.js'
+          dest: '.build/'
         }]
       }
     },
@@ -108,16 +127,14 @@ module.exports = function(grunt) {
     concat: {
       options: {
         debug: true,
-        include: 'self',
-        paths: ['']
+        include: 'relative'
       },
       src: {
         files: [{
           expand: true,
           cwd: '.build/',
-          src: ['*.js'],
-          dest: 'dist/',
-          ext: '.js'
+          src: ['widget*.js'],
+          dest: 'dist/'
         }]
       }
     },
@@ -141,8 +158,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'dist/',
           src: ['*.js', '!*-debug.js'],
-          dest: 'dist/',
-          ext: '.js'
+          dest: 'dist/'
         }]
       }
     }
@@ -151,10 +167,12 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['clean:dist', 'transport', 'concat', 'clean:build', 'uglify']);
 
+  grunt.registerTask('demo', ['clean:sea', 'copy:sea']);
+
   grunt.registerTask('doc', ['yuidoc', 'clean:pages', 'copy', 'clean:doc']);
 
   grunt.registerTask('test', ['jshint', 'qunit']);
 
-  grunt.registerTask('default', ['test', 'doc', 'build']);
+  grunt.registerTask('default', ['test', 'doc', 'build', 'demo']);
 
 };
