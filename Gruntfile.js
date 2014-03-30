@@ -17,7 +17,9 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
-    sea: 'sea-modules/<%= pkg.family %>/<%= pkg.name %>/<%= pkg.version %>/',
+    idleading: '<%= pkg.family %>/<%= pkg.name %>/<%= pkg.version %>/',
+
+    sea: 'sea-modules/<%= idleading %>',
 
     jshint: {
       files: ['src/*.js'],
@@ -111,7 +113,7 @@ module.exports = function(grunt) {
     transport: {
       options: {
         debug: true,
-        idleading: '<%= pkg.family %>/<%= pkg.name %>/<%= pkg.version %>/',
+        idleading: '<%= idleading %>',
         alias: '<%= pkg.spm.alias %>'
       },
       dist: {
