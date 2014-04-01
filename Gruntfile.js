@@ -171,7 +171,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('demo', ['clean:sea', 'copy:sea']);
 
-  grunt.registerTask('doc', ['yuidoc', 'clean:pages', 'copy', 'clean:doc']);
+  grunt.registerTask('doc', ['yuidoc', 'clean:pages', 'copy:doc', 'clean:doc']);
 
   grunt.registerTask('test', ['jshint', 'qunit']);
 
