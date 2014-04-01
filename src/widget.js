@@ -17,6 +17,8 @@ var $ = require('$'),
 var DELEGATE_SPLITTER = /^(\S+)\s*(.*)$/,
   DELEGATE_NAMESPACE = '.delegate-widget-';
 
+var cachedInstances = {};
+
 // TODO: 检查是否有内存泄漏发生
 
 /**
@@ -106,6 +108,8 @@ var Widget = Class.create(Events, Aspect, {
     this.uniqueId = uniqueId();
 
     this.setup();
+
+    cachedInstances[this.uniqueId] = this;
   },
 
   /**
@@ -117,6 +121,7 @@ var Widget = Class.create(Events, Aspect, {
   defaults: {
     // TODO: ue-component 改成 pandora 之类的，以与旧版组件做区别？
     element: '<div class="ue-component"></div>',
+    // 默认插入到的容器
     container: 'body'
   },
 
@@ -275,6 +280,8 @@ var Widget = Class.create(Events, Aspect, {
    * @method render
    */
   render: function () {
+    var content, template;
+
     if (!this.rendered) {
 
       // 插入到容器中
@@ -298,6 +305,14 @@ var Widget = Class.create(Events, Aspect, {
 
       this.rendered = true;
     }
+
+    if ((template = this.option('template'))) {
+      content = template(this.data());
+    } else {
+      content = this.option('content') || '';
+    }
+
+    this.element.html(content);
   },
 
   /**
@@ -311,7 +326,7 @@ var Widget = Class.create(Events, Aspect, {
     // this.off();
 
     // 移除 element 事件代理
-    this.element.off(DELEGATE_NAMESPACE + this.uniqueId);
+    this.element.off();
 
     // 从DOM中移除element
     this.element.remove();
@@ -356,6 +371,14 @@ var uniqueId = (function () {
     return id;
   };
 })();
+
+// For memory leak, from aralejs
+$(window).unload(function() {
+  var cid;
+  for(cid in cachedInstances) {
+    cachedInstances[cid].destroy();
+  }
+});
 
 module.exports = Widget;
 

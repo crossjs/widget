@@ -82,12 +82,25 @@
 
       test('render', function() {
         var WidgetA = Widget.extend({
+          setup: function () {
+            this.data({
+              a: 1,
+              b: 2
+            });
+          }
         });
         var widgetA = new WidgetA({
+          template: function (data) {
+            return JSON.stringify(data);
+          }
         });
         widgetA.render();
         widgetA.render();
         equal( $('.ue-component').length, 1, '' );
+        deepEqual( JSON.parse($('.ue-component').html()), {
+            "a": 1,
+            "b": 2
+          }, '' );
         // for next tests
         widgetA.destroy();
       });
@@ -227,7 +240,8 @@
             test: function (e, t) {
               this.t = t;
               this.e = e;
-            }
+            },
+            test2: 'render'
           }
         });
         widget.fire('test', '2');
