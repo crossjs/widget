@@ -191,6 +191,9 @@ var Widget = Class.create(Events, Aspect, {
     // 初始化事件订阅
     this.initEvents();
 
+    // 初始化事件代理
+    this.initDelegates();
+
     // 实例唯一ID
     this.uniqueId = uniqueId();
 
@@ -304,6 +307,11 @@ var Widget = Class.create(Events, Aspect, {
 
     $.each(events, function (event, callback) {
       var match = /^(before|after):(\w+)$/.exec(event);
+
+      if (typeof callback === &#x27;string&#x27;) {
+        callback = self[callback];
+      }
+
       if (match) {
         // AOP
         self[match[1]](match[2], callback);
@@ -340,6 +348,10 @@ var Widget = Class.create(Events, Aspect, {
       var match = key.match(DELEGATE_SPLITTER),
         event = match[1] + DELEGATE_NAMESPACE + self.uniqueId;
 
+      if (typeof callback === &#x27;string&#x27;) {
+        callback = self[callback];
+      }
+
       if (match[2]) {
         self.element.on(event, match[2], $.proxy(callback, self));
       } else {
@@ -359,9 +371,6 @@ var Widget = Class.create(Events, Aspect, {
 
       // 插入到容器中
       this.container.append(this.element);
-
-      // 初始化事件代理
-      this.initDelegates();
 
       /**
        * &#x60;element&#x60; 所在的 &#x60;document&#x60; 对象
@@ -391,7 +400,7 @@ var Widget = Class.create(Events, Aspect, {
     var prop;
 
     // 移除事件订阅
-    this.off();
+    // this.off();
 
     // 移除 element 事件代理
     this.element.off(DELEGATE_NAMESPACE + this.uniqueId);
