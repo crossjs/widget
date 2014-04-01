@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>src\widget.js - widget</title>
+  <title>src/widget.js - widget</title>
   <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
   <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap-theme.css">
   <link rel="stylesheet" href="../assets/vendor/prettify/prettify.css">
@@ -85,7 +85,7 @@
         <div id="docs-main">
           <div class="content">
             <div class="page-header">
-    <h1>src\widget.js <small>File</small></h1>
+    <h1>src/widget.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -108,6 +108,8 @@ var $ = require(&#x27;$&#x27;),
 
 var DELEGATE_SPLITTER = /^(\S+)\s*(.*)$/,
   DELEGATE_NAMESPACE = &#x27;.delegate-widget-&#x27;;
+
+var cachedInstances = {};
 
 // TODO: 检查是否有内存泄漏发生
 
@@ -198,6 +200,8 @@ var Widget = Class.create(Events, Aspect, {
     this.uniqueId = uniqueId();
 
     this.setup();
+
+    cachedInstances[this.uniqueId] = this;
   },
 
   /**
@@ -209,6 +213,7 @@ var Widget = Class.create(Events, Aspect, {
   defaults: {
     // TODO: ue-component 改成 pandora 之类的，以与旧版组件做区别？
     element: &#x27;&lt;div class=&quot;ue-component&quot;&gt;&lt;/div&gt;&#x27;,
+    // 默认插入到的容器
     container: &#x27;body&#x27;
   },
 
@@ -367,6 +372,8 @@ var Widget = Class.create(Events, Aspect, {
    * @method render
    */
   render: function () {
+    var content, template;
+
     if (!this.rendered) {
 
       // 插入到容器中
@@ -390,6 +397,14 @@ var Widget = Class.create(Events, Aspect, {
 
       this.rendered = true;
     }
+
+    if ((template = this.option(&#x27;template&#x27;))) {
+      content = template(this.data());
+    } else {
+      content = this.option(&#x27;content&#x27;) || &#x27;&#x27;;
+    }
+
+    this.element.html(content);
   },
 
   /**
@@ -403,7 +418,7 @@ var Widget = Class.create(Events, Aspect, {
     // this.off();
 
     // 移除 element 事件代理
-    this.element.off(DELEGATE_NAMESPACE + this.uniqueId);
+    this.element.off();
 
     // 从DOM中移除element
     this.element.remove();
@@ -448,6 +463,14 @@ var uniqueId = (function () {
     return id;
   };
 })();
+
+// For memory leak, from aralejs
+$(window).unload(function() {
+  var cid;
+  for(cid in cachedInstances) {
+    cachedInstances[cid].destroy();
+  }
+});
 
 module.exports = Widget;
 

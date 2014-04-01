@@ -5,8 +5,8 @@
         "version": "1.0.0"
     },
     "files": {
-        "src\\aspect.js": {
-            "name": "src\\aspect.js",
+        "src/aspect.js": {
+            "name": "src/aspect.js",
             "modules": {
                 "Widget": 1
             },
@@ -16,8 +16,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\widget.js": {
-            "name": "src\\widget.js",
+        "src/widget.js": {
+            "name": "src/widget.js",
             "modules": {},
             "classes": {
                 "Widget": 1
@@ -37,8 +37,8 @@
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "src\\widget.js",
-            "line": 22,
+            "file": "src/widget.js",
+            "line": 24,
             "description": "组件基类"
         }
     },
@@ -53,7 +53,7 @@
             "extension_for": [],
             "module": "Widget",
             "namespace": "",
-            "file": "src\\aspect.js",
+            "file": "src/aspect.js",
             "line": 13,
             "description": "Aspect\n\nhttp://http://en.wikipedia.org/wiki/Aspect-oriented_programming",
             "is_constructor": 1
@@ -68,8 +68,8 @@
             "extension_for": [],
             "module": "Widget",
             "namespace": "",
-            "file": "src\\widget.js",
-            "line": 22,
+            "file": "src/widget.js",
+            "line": 24,
             "description": "组件基类\n\n扩展 Events 与 Aspect (AOP)",
             "is_constructor": 1,
             "requires": [
@@ -83,7 +83,7 @@
     },
     "classitems": [
         {
-            "file": "src\\aspect.js",
+            "file": "src/aspect.js",
             "line": 25,
             "description": "方法执行前执行，`callback`返回`false`则阻止原函数执行",
             "itemtype": "method",
@@ -108,7 +108,7 @@
             "module": "Widget"
         },
         {
-            "file": "src\\aspect.js",
+            "file": "src/aspect.js",
             "line": 36,
             "description": "方法执行后执行",
             "itemtype": "method",
@@ -133,8 +133,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 80,
+            "file": "src/widget.js",
+            "line": 82,
             "description": "初始化函数，将自动执行；实现事件自动订阅与初始化组件参数",
             "itemtype": "method",
             "name": "initialize",
@@ -149,8 +149,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 111,
+            "file": "src/widget.js",
+            "line": 115,
             "description": "默认参数，子类自动继承并覆盖",
             "itemtype": "property",
             "name": "defaults",
@@ -159,8 +159,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 123,
+            "file": "src/widget.js",
+            "line": 128,
             "description": "寻找 element 后代",
             "itemtype": "method",
             "name": "$",
@@ -179,8 +179,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 134,
+            "file": "src/widget.js",
+            "line": 139,
             "description": "自动执行的设置函数，预留用于子类覆盖",
             "itemtype": "method",
             "name": "setup",
@@ -188,8 +188,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 142,
+            "file": "src/widget.js",
+            "line": 147,
             "description": "存取组件状态",
             "itemtype": "method",
             "name": "state",
@@ -209,8 +209,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 158,
+            "file": "src/widget.js",
+            "line": 163,
             "description": "获取初始化后的组件参数",
             "itemtype": "method",
             "name": "option",
@@ -230,8 +230,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 171,
+            "file": "src/widget.js",
+            "line": 176,
             "description": "存取组件数据；用于管理动态生成的数据，如服务端返回",
             "itemtype": "method",
             "name": "data",
@@ -257,8 +257,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 200,
+            "file": "src/widget.js",
+            "line": 205,
             "description": "事件订阅，以及AOP",
             "itemtype": "method",
             "name": "initEvents",
@@ -278,8 +278,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 235,
+            "file": "src/widget.js",
+            "line": 240,
             "description": "事件代理，绑定在 element 上",
             "itemtype": "method",
             "name": "initDelegates",
@@ -299,8 +299,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 273,
+            "file": "src/widget.js",
+            "line": 278,
             "description": "插入elemnt到container",
             "itemtype": "method",
             "name": "render",
@@ -308,8 +308,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 283,
+            "file": "src/widget.js",
+            "line": 290,
             "description": "`element` 所在的 `document` 对象",
             "itemtype": "property",
             "name": "document",
@@ -318,8 +318,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 290,
+            "file": "src/widget.js",
+            "line": 297,
             "description": "`element` 所在的 `window` 对象",
             "itemtype": "property",
             "name": "viewport",
@@ -328,8 +328,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 303,
+            "file": "src/widget.js",
+            "line": 318,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
