@@ -105,6 +105,14 @@
         widgetA.destroy();
       });
 
+      test('element', function() {
+        var WidgetA = Widget.extend();
+        var widgetA = new WidgetA();
+        equal( widgetA.getElement(), widgetA.element, '' );
+        // for next tests
+        widgetA.destroy();
+      });
+
       test('destroy', function() {
         var WidgetA = Widget.extend({
         });

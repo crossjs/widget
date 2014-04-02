@@ -140,6 +140,15 @@ var Widget = Class.create(Events, Aspect, {
   },
 
   /**
+   * 获取组件的 element
+   *
+   * @method getElement
+   */
+  getElement: function () {
+    return this.element;
+  },
+
+  /**
    * 存取组件状态
    *
    * @method state
