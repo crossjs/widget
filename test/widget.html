@@ -25,8 +25,7 @@
       ],
       'alias': {
         '$': 'jquery',
-        'class': 'pandora/class/1.0.0/class',
-        'events': 'pandora/events/1.0.0/events'
+        'base': 'pandora/base/1.0.0/base'
       }
     });
 
@@ -92,6 +91,21 @@
         widgetA.destroy();
       });
 
+      test('render', function() {
+        var WidgetA = Widget.extend({
+        });
+        var widgetA = new WidgetA({
+          template: function () {
+            return 123;
+          }
+        });
+        widgetA.render();
+        widgetA.render();
+        equal( $('.ue-component').text(), '123', '' );
+        // for next tests
+        widgetA.destroy();
+      });
+
       test('$', function() {
         var WidgetA = Widget.extend({
           setup: function () {
@@ -101,14 +115,7 @@
         });
         var widgetA = new WidgetA();
         equal( widgetA.$('p').length, 1, '' );
-        // for next tests
-        widgetA.destroy();
-      });
-
-      test('element', function() {
-        var WidgetA = Widget.extend();
-        var widgetA = new WidgetA();
-        equal( widgetA.getElement(), widgetA.element, '' );
+        equal( widgetA.$(), widgetA.element, '' );
         // for next tests
         widgetA.destroy();
       });

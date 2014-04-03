@@ -48,8 +48,7 @@
     "output": [ "widget.js" ],
     "alias": {
       "$": "$",
-      "class": "pandora/class/1.0.0/class",
-      "events": "pandora/events/1.0.0/events"
+      "base": "pandora/base/1.0.0/base"
     }
   }
 }

@@ -57,8 +57,7 @@ module.exports = function(grunt) {
         version: '<%= pkg.version %>',
         options: {
           paths: 'src',
-          outdir: 'doc',
-          themedir: 'vendor/yuidoc-bootstrap'
+          outdir: 'doc'
         }
       }
     },

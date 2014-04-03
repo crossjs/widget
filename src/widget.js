@@ -9,10 +9,7 @@ define(function (require, exports, module) {
 'use strict';
 
 var $ = require('$'),
-  Class = require('class'),
-  Events = require('events').prototype,
-
-  Aspect = require('./aspect').prototype;
+  Base = require('base');
 
 var DELEGATE_SPLITTER = /^(\S+)\s*(.*)$/,
   DELEGATE_NAMESPACE = '.delegate-widget-';
@@ -24,12 +21,9 @@ var cachedInstances = {};
 /**
  * 组件基类
  *
- * 扩展 Events 与 Aspect (AOP)
- *
  * @class Widget
  * @constructor
- * @requires Events
- * @requires Aspect
+ * @extends Base
  *
  * @example
  * ```
@@ -77,7 +71,7 @@ var cachedInstances = {};
  * });
  * ```
  */
-var Widget = Class.create(Events, Aspect, {
+var Widget = Base.extend({
 
   /**
    * 初始化函数，将自动执行；实现事件自动订阅与初始化组件参数
@@ -86,8 +80,7 @@ var Widget = Class.create(Events, Aspect, {
    * @param {Object} options 组件参数
    */
   initialize: function (options) {
-    // 初始化组件参数，只读
-    this.__options = mergeDefaults(this, options || {});
+    Widget.superclass.initialize.apply(this, arguments);
 
     // this.UI = {
     //   'default': {}
@@ -97,9 +90,6 @@ var Widget = Class.create(Events, Aspect, {
     this.container = $(this.option('container'));
     this.element = $(this.option('element'))
         .addClass(this.option('classPrefix'));
-
-    // 初始化事件订阅
-    this.initEvents();
 
     // 初始化事件代理
     this.initDelegates();
@@ -126,23 +116,14 @@ var Widget = Class.create(Events, Aspect, {
   },
 
   /**
-   * 寻找 element 后代
+   * 寻找 element 后代，参数为空时，返回 element
    *
    * @method $
-   * @param {Mixed} selector 选择符
+   * @param {Mixed} [selector] 选择符
    * @return {Object} jQuery 包装的 DOM 节点
    */
   $: function (selector) {
-    return this.element.find(selector);
-  },
-
-  /**
-   * 获取组件的 element
-   *
-   * @method getElement
-   */
-  getElement: function () {
-    return this.element;
+    return selector ? this.element.find(selector) : this.element;
   },
 
   /**
@@ -154,99 +135,6 @@ var Widget = Class.create(Events, Aspect, {
   },
 
   /**
-   * 存取组件状态
-   *
-   * @method state
-   * @param {Number} [state] 状态值
-   * @return {Mixed} 当前状态值或当前实例
-   */
-  state: function (state) {
-    if (state === undefined) {
-      return this.__state;
-    }
-
-    this.__state = state;
-    return this;
-  },
-
-  /**
-   * 获取初始化后的组件参数
-   *
-   * @method option
-   * @param {String} [key] 键
-   * @return {Mixed} 整个参数列表或指定参数值
-   */
-  option: function (key) {
-    var options = this.__options;
-    return ((key === undefined) ? options :
-      (options.hasOwnProperty(key) ? options[key] : undefined));
-  },
-
-  /**
-   * 存取组件数据；用于管理动态生成的数据，如服务端返回
-   *
-   * @method data
-   * @param {String} [key] 键
-   * @param {Mixed} [value] 值
-   * @return {Mixed} 整个数据、指定键值或当前实例
-   */
-  data: function (key, value) {
-    var datas = this.__datas || (this.__datas = {});
-
-    if (key === undefined) {
-      return datas;
-    }
-
-    if ($.isPlainObject(key)) {
-      $.extend(true, datas, key);
-    } else {
-
-      if (value === undefined) {
-        return (datas.hasOwnProperty(key) ? datas[key] : undefined);
-      } else {
-        datas[key] = value;
-      }
-    }
-
-    return this;
-  },
-
-  /**
-   * 事件订阅，以及AOP
-   *
-   * @method initEvents
-   * @param {Object|Function} [events] 订阅事件列表
-   * @return {Object} 当前实例
-   */
-  initEvents: function (events) {
-    var self = this;
-
-    events || (events = this.option('events'));
-
-    if (!events) {
-      return this;
-    }
-
-    $.each(events, function (event, callback) {
-      var match = /^(before|after):(\w+)$/.exec(event);
-
-      if (typeof callback === 'string') {
-        callback = self[callback];
-      }
-
-      if (match) {
-        // AOP
-        self[match[1]](match[2], callback);
-      } else {
-        // Subscriber
-        self.on(event, callback);
-      }
-    });
-
-    return this;
-  },
-
-  /**
    * 事件代理，绑定在 element 上
    *
    * @method initDelegates
@@ -254,8 +142,6 @@ var Widget = Class.create(Events, Aspect, {
    * @return {Object} 当前实例
    */
   initDelegates: function (delegates) {
-    var self = this;
-
     delegates || (delegates = this.option('delegates'));
 
     if (!delegates) {
@@ -266,20 +152,20 @@ var Widget = Class.create(Events, Aspect, {
       delegates = delegates.call(this);
     }
 
-    $.each(delegates, function (key, callback) {
+    $.each(delegates, $.proxy(function (key, callback) {
       var match = key.match(DELEGATE_SPLITTER),
-        event = match[1] + DELEGATE_NAMESPACE + self.uniqueId;
+        event = match[1] + DELEGATE_NAMESPACE + this.uniqueId;
 
       if (typeof callback === 'string') {
-        callback = self[callback];
+        callback = this[callback];
       }
 
       if (match[2]) {
-        self.element.on(event, match[2], $.proxy(callback, self));
+        this.element.on(event, match[2], $.proxy(callback, this));
       } else {
-        self.element.on(event, $.proxy(callback, self));
+        this.element.on(event, $.proxy(callback, this));
       }
-    });
+    }, this));
 
     return this;
   },
@@ -332,45 +218,16 @@ var Widget = Class.create(Events, Aspect, {
    * @method destroy
    */
   destroy: function () {
-    var prop;
-
-    // 移除事件订阅
-    // this.off();
-
     // 移除 element 事件代理
     this.element.off();
 
     // 从DOM中移除element
     this.element.remove();
 
-    // 移除属性
-    for (prop in this) {
-      if (this.hasOwnProperty(prop)) {
-        delete this[prop];
-      }
-    }
-
-    this.destroy = function() { };
+    Widget.superclass.destroy.apply(this);
   }
 
 });
-
-function mergeDefaults(instance, options) {
-  var arr = [options],
-    proto = instance.constructor.prototype;
-
-  while (proto) {
-    if (proto.hasOwnProperty('defaults')) {
-      arr.unshift(proto.defaults);
-    }
-
-    proto = proto.constructor.superclass;
-  }
-
-  arr.unshift(true, {});
-
-  return $.extend.apply(null, arr);
-}
 
 var uniqueId = (function () {
   var ids = {};
