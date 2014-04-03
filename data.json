@@ -5,8 +5,8 @@
         "version": "1.0.0"
     },
     "files": {
-        "src\\aspect.js": {
-            "name": "src\\aspect.js",
+        "src/aspect.js": {
+            "name": "src/aspect.js",
             "modules": {
                 "Widget": 1
             },
@@ -16,8 +16,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\widget.js": {
-            "name": "src\\widget.js",
+        "src/widget.js": {
+            "name": "src/widget.js",
             "modules": {},
             "classes": {
                 "Widget": 1
@@ -37,8 +37,8 @@
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "src\\widget.js",
-            "line": 24,
+            "file": "src/widget.js",
+            "line": 21,
             "description": "组件基类"
         }
     },
@@ -53,7 +53,7 @@
             "extension_for": [],
             "module": "Widget",
             "namespace": "",
-            "file": "src\\aspect.js",
+            "file": "src/aspect.js",
             "line": 13,
             "description": "Aspect\n\nhttp://http://en.wikipedia.org/wiki/Aspect-oriented_programming",
             "is_constructor": 1
@@ -68,14 +68,11 @@
             "extension_for": [],
             "module": "Widget",
             "namespace": "",
-            "file": "src\\widget.js",
-            "line": 24,
-            "description": "组件基类\n\n扩展 Events 与 Aspect (AOP)",
+            "file": "src/widget.js",
+            "line": 21,
+            "description": "组件基类",
             "is_constructor": 1,
-            "requires": [
-                "Events",
-                "Aspect"
-            ],
+            "extends": "Base",
             "example": [
                 "\n```\n// 创建子类\nvar PersonWidget = Widget.extend({\n  setup: function () {\n    // 通知事件 `setup`\n    this.fire('setup', this.option('name'), this.option('age'));\n  }\n});\n// 创建子类实例\nvar tom = new PersonWidget({\n  name: 'Tom',\n  age: 21,\n  // 订阅事件\n  events: {\n    // `setup`\n    setup: function (e, name, age) {\n      // e === 'setup'\n      // name === 'Tom'\n      // age === 21\n      // this === tom\n    },\n    // AOP `before:setup`\n    'before:setup': function (e) {\n      // 执行 `setup` 方法前执行\n      // 此处返回 `false` 将阻止 `setup` 方法执行\n    },\n    // AOP `before:setup`\n    'before:setup': function (e) {\n      // 执行 `setup` 方法后执行\n      // 如果 `setup` 方法被阻止，就不会执行到这里\n    }\n  },\n  // 代理事件\n  delegates: {\n    'click': function (e) {\n      // e.target === this.element[0]\n      // this === tom\n    },\n    'mouseover .avatar': function (e) {\n      // 鼠标悬停在 element 里的 `.avatar` 元素\n    }\n  }\n});\n```"
             ]
@@ -83,7 +80,7 @@
     },
     "classitems": [
         {
-            "file": "src\\aspect.js",
+            "file": "src/aspect.js",
             "line": 25,
             "description": "方法执行前执行，`callback`返回`false`则阻止原函数执行",
             "itemtype": "method",
@@ -108,7 +105,7 @@
             "module": "Widget"
         },
         {
-            "file": "src\\aspect.js",
+            "file": "src/aspect.js",
             "line": 36,
             "description": "方法执行后执行",
             "itemtype": "method",
@@ -133,8 +130,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 82,
+            "file": "src/widget.js",
+            "line": 76,
             "description": "初始化函数，将自动执行；实现事件自动订阅与初始化组件参数",
             "itemtype": "method",
             "name": "initialize",
@@ -149,8 +146,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 115,
+            "file": "src/widget.js",
+            "line": 105,
             "description": "默认参数，子类自动继承并覆盖",
             "itemtype": "property",
             "name": "defaults",
@@ -159,16 +156,17 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 128,
-            "description": "寻找 element 后代",
+            "file": "src/widget.js",
+            "line": 118,
+            "description": "寻找 element 后代，参数为空时，返回 element",
             "itemtype": "method",
             "name": "$",
             "params": [
                 {
                     "name": "selector",
                     "description": "选择符",
-                    "type": "Mixed"
+                    "type": "Mixed",
+                    "optional": true
                 }
             ],
             "return": {
@@ -179,17 +177,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 139,
-            "description": "获取组件的 element",
-            "itemtype": "method",
-            "name": "getElement",
-            "class": "Widget",
-            "module": "Widget"
-        },
-        {
-            "file": "src\\widget.js",
-            "line": 148,
+            "file": "src/widget.js",
+            "line": 129,
             "description": "自动执行的设置函数，预留用于子类覆盖",
             "itemtype": "method",
             "name": "setup",
@@ -197,98 +186,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 156,
-            "description": "存取组件状态",
-            "itemtype": "method",
-            "name": "state",
-            "params": [
-                {
-                    "name": "state",
-                    "description": "状态值",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "当前状态值或当前实例",
-                "type": "Mixed"
-            },
-            "class": "Widget",
-            "module": "Widget"
-        },
-        {
-            "file": "src\\widget.js",
-            "line": 172,
-            "description": "获取初始化后的组件参数",
-            "itemtype": "method",
-            "name": "option",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "键",
-                    "type": "String",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "整个参数列表或指定参数值",
-                "type": "Mixed"
-            },
-            "class": "Widget",
-            "module": "Widget"
-        },
-        {
-            "file": "src\\widget.js",
-            "line": 185,
-            "description": "存取组件数据；用于管理动态生成的数据，如服务端返回",
-            "itemtype": "method",
-            "name": "data",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "键",
-                    "type": "String",
-                    "optional": true
-                },
-                {
-                    "name": "value",
-                    "description": "值",
-                    "type": "Mixed",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "整个数据、指定键值或当前实例",
-                "type": "Mixed"
-            },
-            "class": "Widget",
-            "module": "Widget"
-        },
-        {
-            "file": "src\\widget.js",
-            "line": 214,
-            "description": "事件订阅，以及AOP",
-            "itemtype": "method",
-            "name": "initEvents",
-            "params": [
-                {
-                    "name": "events",
-                    "description": "订阅事件列表",
-                    "type": "Object|Function",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "当前实例",
-                "type": "Object"
-            },
-            "class": "Widget",
-            "module": "Widget"
-        },
-        {
-            "file": "src\\widget.js",
-            "line": 249,
+            "file": "src/widget.js",
+            "line": 137,
             "description": "事件代理，绑定在 element 上",
             "itemtype": "method",
             "name": "initDelegates",
@@ -308,8 +207,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 287,
+            "file": "src/widget.js",
+            "line": 173,
             "description": "插入elemnt到container",
             "itemtype": "method",
             "name": "render",
@@ -317,8 +216,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 300,
+            "file": "src/widget.js",
+            "line": 186,
             "description": "`element` 所在的 `document` 对象",
             "itemtype": "property",
             "name": "document",
@@ -327,8 +226,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 307,
+            "file": "src/widget.js",
+            "line": 193,
             "description": "`element` 所在的 `window` 对象",
             "itemtype": "property",
             "name": "viewport",
@@ -337,8 +236,8 @@
             "module": "Widget"
         },
         {
-            "file": "src\\widget.js",
-            "line": 330,
+            "file": "src/widget.js",
+            "line": 216,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
