@@ -121,7 +121,7 @@ var Widget = Class.create(Events, Aspect, {
   defaults: {
     // TODO: ue-component 改成 pandora 之类的，以与旧版组件做区别？
     element: '<div class="ue-component"></div>',
-    // 默认插入到的容器
+    // 默认插入到的容器，设置为 `null` 则不执行插入
     container: 'body'
   },
 
@@ -294,7 +294,7 @@ var Widget = Class.create(Events, Aspect, {
     if (!this.rendered) {
 
       // 插入到容器中
-      this.container.append(this.element);
+      this.container.length && this.container.append(this.element);
 
       /**
        * `element` 所在的 `document` 对象
