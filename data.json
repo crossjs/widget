@@ -5,20 +5,11 @@
         "version": "1.0.0"
     },
     "files": {
-        "src/aspect.js": {
-            "name": "src/aspect.js",
+        "src/widget.js": {
+            "name": "src/widget.js",
             "modules": {
                 "Widget": 1
             },
-            "classes": {
-                "Aspect": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/widget.js": {
-            "name": "src/widget.js",
-            "modules": {},
             "classes": {
                 "Widget": 1
             },
@@ -31,7 +22,6 @@
             "name": "Widget",
             "submodules": {},
             "classes": {
-                "Aspect": 1,
                 "Widget": 1
             },
             "fors": {},
@@ -43,21 +33,6 @@
         }
     },
     "classes": {
-        "Aspect": {
-            "name": "Aspect",
-            "shortname": "Aspect",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "Widget",
-            "namespace": "",
-            "file": "src/aspect.js",
-            "line": 13,
-            "description": "Aspect\n\nhttp://http://en.wikipedia.org/wiki/Aspect-oriented_programming",
-            "is_constructor": 1
-        },
         "Widget": {
             "name": "Widget",
             "shortname": "Widget",
@@ -79,56 +54,6 @@
         }
     },
     "classitems": [
-        {
-            "file": "src/aspect.js",
-            "line": 25,
-            "description": "方法执行前执行，`callback`返回`false`则阻止原函数执行",
-            "itemtype": "method",
-            "name": "before",
-            "params": [
-                {
-                    "name": "methodName",
-                    "description": "方法名",
-                    "type": "String"
-                },
-                {
-                    "name": "callback",
-                    "description": "回调函数",
-                    "type": "Function"
-                }
-            ],
-            "return": {
-                "description": "当前实例",
-                "type": "Object"
-            },
-            "class": "Aspect",
-            "module": "Widget"
-        },
-        {
-            "file": "src/aspect.js",
-            "line": 36,
-            "description": "方法执行后执行",
-            "itemtype": "method",
-            "name": "after",
-            "params": [
-                {
-                    "name": "methodName",
-                    "description": "方法名",
-                    "type": "String"
-                },
-                {
-                    "name": "callback",
-                    "description": "回调函数",
-                    "type": "Function"
-                }
-            ],
-            "return": {
-                "description": "当前实例",
-                "type": "Object"
-            },
-            "class": "Aspect",
-            "module": "Widget"
-        },
         {
             "file": "src/widget.js",
             "line": 76,
