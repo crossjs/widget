@@ -289,7 +289,8 @@ var Widget = Class.create(Events, Aspect, {
    * @method render
    */
   render: function () {
-    var content, template;
+    var content,
+      template = this.option('template');
 
     if (!this.rendered) {
 
@@ -315,13 +316,15 @@ var Widget = Class.create(Events, Aspect, {
       this.rendered = true;
     }
 
-    if ((template = this.option('template'))) {
+    if (typeof template === 'function') {
       content = template(this.data());
     } else {
-      content = this.option('content') || '';
+      content = this.option('content');
     }
 
-    this.element.html(content);
+    if (typeof content !== 'undefined') {
+      this.element.html(content);
+    }
   },
 
   /**
