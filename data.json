@@ -5,8 +5,8 @@
         "version": "1.0.0"
     },
     "files": {
-        "src/widget.js": {
-            "name": "src/widget.js",
+        "src\\widget.js": {
+            "name": "src\\widget.js",
             "modules": {
                 "Widget": 1
             },
@@ -27,7 +27,7 @@
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "src/widget.js",
+            "file": "src\\widget.js",
             "line": 21,
             "description": "组件基类"
         }
@@ -43,7 +43,7 @@
             "extension_for": [],
             "module": "Widget",
             "namespace": "",
-            "file": "src/widget.js",
+            "file": "src\\widget.js",
             "line": 21,
             "description": "组件基类",
             "is_constructor": 1,
@@ -55,7 +55,7 @@
     },
     "classitems": [
         {
-            "file": "src/widget.js",
+            "file": "src\\widget.js",
             "line": 76,
             "description": "初始化函数，将自动执行；实现事件自动订阅与初始化组件参数",
             "itemtype": "method",
@@ -71,8 +71,8 @@
             "module": "Widget"
         },
         {
-            "file": "src/widget.js",
-            "line": 105,
+            "file": "src\\widget.js",
+            "line": 106,
             "description": "默认参数，子类自动继承并覆盖",
             "itemtype": "property",
             "name": "defaults",
@@ -81,8 +81,8 @@
             "module": "Widget"
         },
         {
-            "file": "src/widget.js",
-            "line": 118,
+            "file": "src\\widget.js",
+            "line": 119,
             "description": "寻找 element 后代，参数为空时，返回 element",
             "itemtype": "method",
             "name": "$",
@@ -102,8 +102,8 @@
             "module": "Widget"
         },
         {
-            "file": "src/widget.js",
-            "line": 129,
+            "file": "src\\widget.js",
+            "line": 130,
             "description": "自动执行的设置函数，预留用于子类覆盖",
             "itemtype": "method",
             "name": "setup",
@@ -111,8 +111,8 @@
             "module": "Widget"
         },
         {
-            "file": "src/widget.js",
-            "line": 137,
+            "file": "src\\widget.js",
+            "line": 138,
             "description": "事件代理，绑定在 element 上",
             "itemtype": "method",
             "name": "initDelegates",
@@ -132,8 +132,8 @@
             "module": "Widget"
         },
         {
-            "file": "src/widget.js",
-            "line": 173,
+            "file": "src\\widget.js",
+            "line": 174,
             "description": "插入elemnt到container",
             "itemtype": "method",
             "name": "render",
@@ -141,8 +141,8 @@
             "module": "Widget"
         },
         {
-            "file": "src/widget.js",
-            "line": 186,
+            "file": "src\\widget.js",
+            "line": 187,
             "description": "`element` 所在的 `document` 对象",
             "itemtype": "property",
             "name": "document",
@@ -151,8 +151,8 @@
             "module": "Widget"
         },
         {
-            "file": "src/widget.js",
-            "line": 193,
+            "file": "src\\widget.js",
+            "line": 194,
             "description": "`element` 所在的 `window` 对象",
             "itemtype": "property",
             "name": "viewport",
@@ -161,8 +161,8 @@
             "module": "Widget"
         },
         {
-            "file": "src/widget.js",
-            "line": 216,
+            "file": "src\\widget.js",
+            "line": 217,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
