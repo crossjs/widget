@@ -86,6 +86,12 @@ var Widget = Base.extend({
     //   'default': {}
     // };
 
+    // 实例唯一ID
+    this.uniqueId = uniqueId();
+
+    // 储存实例
+    cachedInstances[this.uniqueId] = this;
+
     // 容器与元素
     this.container = $(this.option('container'));
     this.element = $(this.option('element'))
@@ -94,12 +100,7 @@ var Widget = Base.extend({
     // 初始化事件代理
     this.initDelegates();
 
-    // 实例唯一ID
-    this.uniqueId = uniqueId();
-
     this.setup();
-
-    cachedInstances[this.uniqueId] = this;
   },
 
   /**
