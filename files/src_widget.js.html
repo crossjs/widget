@@ -200,10 +200,14 @@ var Widget = Base.extend({
    * @type {Object}
    */
   defaults: {
+    // 默认插入到的容器，设置为 &#x60;null&#x60; 则不执行插入
+    container: &#x27;body&#x27;,
     // TODO: ue-component 改成 pandora 之类的，以与旧版组件做区别？
     element: &#x27;&lt;div class=&quot;ue-component&quot;&gt;&lt;/div&gt;&#x27;,
-    // 默认插入到的容器，设置为 &#x60;null&#x60; 则不执行插入
-    container: &#x27;body&#x27;
+    // 实现 element 插入到 DOM，基于 container
+    insert: function () {
+      this.container.length &amp;&amp; this.container.append(this.element);
+    }
   },
 
   /**
@@ -272,7 +276,7 @@ var Widget = Base.extend({
     if (!this.rendered) {
 
       // 插入到容器中
-      this.container.length &amp;&amp; this.container.append(this.element);
+      this.option(&#x27;insert&#x27;).call(this);
 
       /**
        * &#x60;element&#x60; 所在的 &#x60;document&#x60; 对象

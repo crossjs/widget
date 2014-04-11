@@ -82,7 +82,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 119,
+            "line": 123,
             "description": "寻找 element 后代，参数为空时，返回 element",
             "itemtype": "method",
             "name": "$",
@@ -103,7 +103,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 130,
+            "line": 134,
             "description": "自动执行的设置函数，预留用于子类覆盖",
             "itemtype": "method",
             "name": "setup",
@@ -112,7 +112,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 138,
+            "line": 142,
             "description": "事件代理，绑定在 element 上",
             "itemtype": "method",
             "name": "initDelegates",
@@ -133,7 +133,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 174,
+            "line": 178,
             "description": "插入elemnt到container",
             "itemtype": "method",
             "name": "render",
@@ -142,7 +142,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 187,
+            "line": 191,
             "description": "`element` 所在的 `document` 对象",
             "itemtype": "property",
             "name": "document",
@@ -152,7 +152,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 194,
+            "line": 198,
             "description": "`element` 所在的 `window` 对象",
             "itemtype": "property",
             "name": "viewport",
@@ -162,7 +162,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 217,
+            "line": 221,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
