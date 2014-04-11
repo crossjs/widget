@@ -106,6 +106,21 @@
         widgetA.destroy();
       });
 
+      test('insert', function() {
+        var WidgetA = Widget.extend({
+        });
+        var widgetA = new WidgetA({
+          insert: function () {
+            this.container.prepend(this.element);
+          }
+        });
+        widgetA.render();
+        widgetA.render();
+        equal( widgetA.$().prev().length, 0, '' );
+        // for next tests
+        widgetA.destroy();
+      });
+
       test('$', function() {
         var WidgetA = Widget.extend({
           setup: function () {
@@ -161,14 +176,8 @@
           z: 4,
           events: events
         });
-        deepEqual( widgetA.option(), {
-          container: 'body',
-          element: '<div class="ue-component"></div>',
-          x: 2,
-          y: 3,
-          z: 4,
-          events: events
-        }, '' );
+        equal( widgetA.option('container'), 'body', '' );
+        equal( widgetA.option('element'), '<div class="ue-component"></div>', '' );
         equal( widgetA.option('y'), 3, '' );
         equal( widgetA.option('w'), undefined, '' );
         deepEqual( widgetA.option('events'), events, '' );
