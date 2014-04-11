@@ -223,6 +223,9 @@ var Widget = Base.extend({
    * @method destroy
    */
   destroy: function () {
+    // 通知销毁
+    this.fire('destroy');
+
     // 移除 element 事件代理
     this.element.off();
 

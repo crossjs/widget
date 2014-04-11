@@ -140,6 +140,9 @@
         });
         var widgetA = new WidgetA({
         });
+        widgetA.on('destroy', function () {
+          ok( true, 'before destroy' );
+        });
         widgetA.render();
         widgetA.destroy();
         widgetA.destroy();
