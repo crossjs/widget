@@ -133,7 +133,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 178,
+            "line": 184,
             "description": "插入elemnt到container",
             "itemtype": "method",
             "name": "render",
@@ -142,7 +142,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 191,
+            "line": 197,
             "description": "`element` 所在的 `document` 对象",
             "itemtype": "property",
             "name": "document",
@@ -152,7 +152,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 198,
+            "line": 204,
             "description": "`element` 所在的 `window` 对象",
             "itemtype": "property",
             "name": "viewport",
@@ -162,7 +162,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 221,
+            "line": 227,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
