@@ -189,6 +189,16 @@ var Widget = Base.extend({
     var content,
       template = this.option('template');
 
+    if (typeof template === 'function') {
+      content = template(this.data());
+    } else {
+      content = this.option('content');
+    }
+
+    if (typeof content !== 'undefined') {
+      this.element.html(content);
+    }
+
     if (!this.rendered) {
 
       // 插入到容器中
@@ -211,16 +221,6 @@ var Widget = Base.extend({
       })(this.document);
 
       this.rendered = true;
-    }
-
-    if (typeof template === 'function') {
-      content = template(this.data());
-    } else {
-      content = this.option('content');
-    }
-
-    if (typeof content !== 'undefined') {
-      this.element.html(content);
     }
   },
 
