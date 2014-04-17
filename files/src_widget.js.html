@@ -132,7 +132,7 @@ var cachedInstances = {};
  *   events: {
  *     // &#x60;setup&#x60;
  *     setup: function (e, name, age) {
- *       // e === &#x27;setup&#x27;
+ *       // e.type === &#x27;setup&#x27;
  *       // name === &#x27;Tom&#x27;
  *       // age === 21
  *       // this === tom
@@ -170,27 +170,40 @@ var Widget = Base.extend({
    * @param {Object} options 组件参数
    */
   initialize: function (options) {
-    Widget.superclass.initialize.apply(this, arguments);
+    var self = this;
 
-    // this.UI = {
+    Widget.superclass.initialize.apply(self, arguments);
+
+    // self.UI = {
     //   &#x27;default&#x27;: {}
     // };
 
-    // 实例唯一ID
-    this.uniqueId = uniqueId();
+    /**
+     * 实例唯一ID
+     *
+     * @property {String} uniqueId
+     */
+    self.uniqueId = uniqueId();
+
+    /**
+     * 用于 DOM 事件绑定的 NAMESPACE
+     *
+     * @property {String} delegateNS
+     */
+    self.delegateNS = DELEGATE_NAMESPACE + self.uniqueId;
+
+    self.initCaE();
+
+    self.initDaV();
+
+    self.initDelegates();
+
+    self.initTrigger();
+
+    self.setup();
 
     // 储存实例
-    cachedInstances[this.uniqueId] = this;
-
-    // 容器与元素
-    this.container = $(this.option(&#x27;container&#x27;));
-    this.element = $(this.option(&#x27;element&#x27;))
-        .addClass(this.option(&#x27;classPrefix&#x27;));
-
-    // 初始化事件代理
-    this.initDelegates();
-
-    this.setup();
+    cachedInstances[self.uniqueId] = self;
   },
 
   /**
@@ -222,11 +235,56 @@ var Widget = Base.extend({
   },
 
   /**
-   * 自动执行的设置函数，预留用于子类覆盖
+   * 初始化 &#x60;container&#x60; 与 &#x60;element&#x60;
    *
-   * @method setup
+   * @method initCaE
+   * @return {Object} 当前实例
    */
-  setup: function () {
+  initCaE: function () {
+    /**
+     * 容器/插入参考点
+     *
+     * @property {Object} container（容器
+     */
+    this.container = $(this.option(&#x27;container&#x27;));
+
+    /**
+     * 组件根元素
+     *
+     * @property {Object} element
+     */
+    this.element = $(this.option(&#x27;element&#x27;))
+        .attr(&#x27;widget-id&#x27;, this.uniqueId)
+        .addClass(this.option(&#x27;classPrefix&#x27;))
+        .hide();
+
+    return this;
+  },
+
+  /**
+   * 初始化 &#x60;document&#x60; 与 &#x60;viewport&#x60;
+   *
+   * @method initDaV
+   * @return {Object} 当前实例
+   */
+  initDaV: function () {
+    /**
+     * &#x60;element&#x60; 所在的 &#x60;document&#x60; 对象
+     *
+     * @property {Document} document
+     */
+    this.document = this.element.prop(&#x27;ownerDocument&#x27;);
+
+    /**
+     * &#x60;element&#x60; 所在的 &#x60;window&#x60; 对象
+     *
+     * @property {Window} viewport
+     */
+    this.viewport = (function (doc) {
+      return doc.defaultView || doc.parentWindow;
+    })(this.document);
+
+    return this;
   },
 
   /**
@@ -239,19 +297,19 @@ var Widget = Base.extend({
   initDelegates: function (delegates) {
     var self = this;
 
-    delegates || (delegates = this.option(&#x27;delegates&#x27;));
+    delegates || (delegates = self.option(&#x27;delegates&#x27;));
 
     if (!delegates) {
-      return this;
+      return self;
     }
 
     if (typeof delegates === &#x27;function&#x27;) {
-      delegates = delegates.call(this);
+      delegates = delegates.call(self);
     }
 
     $.each(delegates, function (key, callback) {
       var match = key.match(DELEGATE_SPLITTER),
-        event = match[1] + DELEGATE_NAMESPACE + self.uniqueId;
+        event = match[1] + self.delegateNS;
 
       if (typeof callback === &#x27;string&#x27;) {
         callback = self[callback];
@@ -268,50 +326,116 @@ var Widget = Base.extend({
       }
     });
 
-    return this;
+    return self;
+  },
+
+  /**
+   * 显示触发器
+   *
+   * @method initTrigger
+   * @param {String} [trigger] 触发器
+   * @return {Object} 当前实例
+   */
+  initTrigger: function (trigger) {
+    var self = this;
+
+    trigger || (trigger = self.option(&#x27;trigger&#x27;));
+
+    if (!trigger) {
+      return self;
+    }
+
+    $(this.document)
+      .on(&#x27;click&#x27; + self.delegateNS, trigger, function (e) {
+        // e.preventDefault();
+        self.activeTrigger = e.currentTarget;
+
+        if (!self.rendered) {
+          self.render();
+        }
+
+        self.show();
+      });
+
+    return self;
+  },
+
+  /**
+   * 自动执行的设置函数，预留用于子类覆盖
+   *
+   * @method setup
+   */
+  setup: function () {
   },
 
   /**
    * 插入elemnt到container
    * @method render
+   * @return {Object} 当前实例
    */
   render: function () {
-    var content,
-      template = this.option(&#x27;template&#x27;);
-
-    if (!this.rendered) {
-
-      // 插入到容器中
-      this.option(&#x27;insert&#x27;).call(this);
-
-      /**
-       * &#x60;element&#x60; 所在的 &#x60;document&#x60; 对象
-       *
-       * @property {Object} document
-       */
-      this.document = this.element.prop(&#x27;ownerDocument&#x27;);
-
-      /**
-       * &#x60;element&#x60; 所在的 &#x60;window&#x60; 对象
-       *
-       * @property {Object} viewport
-       */
-      this.viewport = (function (doc) {
-        return doc.defaultView || doc.parentWindow;
-      })(this.document);
-
-      this.rendered = true;
-    }
+    var self = this,
+      content,
+      template = self.option(&#x27;template&#x27;);
 
     if (typeof template === &#x27;function&#x27;) {
-      content = template(this.data());
+      content = template(self.data());
     } else {
-      content = this.option(&#x27;content&#x27;);
+      content = self.option(&#x27;content&#x27;);
     }
 
     if (typeof content !== &#x27;undefined&#x27;) {
-      this.element.html(content);
+      self.element.html(content);
     }
+
+    if (!self.option(&#x27;trigger&#x27;)) {
+      self.show();
+    }
+
+    if (!self.rendered) {
+      // 插入到容器中
+      self.option(&#x27;insert&#x27;).call(self);
+
+      self.rendered = true;
+    }
+
+    return self;
+  },
+
+  /**
+   * 判断：显示状态等，参见 &#x60;jq&#x60; 的 &#x60;is&#x60;
+   *
+   * @example
+   * &#x60;&#x60;&#x60;
+   * instance.is(&#x27;:hidden&#x27;)
+   * &#x60;&#x60;&#x60;
+   *
+   * @method is
+   * @param {Mixed} condition 判断语句
+   * @return {Boolean}
+   */
+  is: function (contidtion) {
+    return this.element.is(contidtion);
+  },
+
+  /**
+   * 显示
+   *
+   * @method show
+   * @return {Object} 当前实例
+   */
+  show: function () {
+    return this.element.show();
+  },
+
+  /**
+   * 隐藏
+   *
+   * @method hide
+   * @return {Object} 当前实例
+   */
+  hide: function () {
+    return this.element.hide();
   },
 
   /**
@@ -323,7 +447,10 @@ var Widget = Base.extend({
     this.fire(&#x27;destroy&#x27;);
 
     // 移除 element 事件代理
-    this.element.off();
+    this.element &amp;&amp; this.element.off(this.delegateNS);
+
+    // 移除 document 事件代理
+    this.trigger &amp;&amp; this.document &amp;&amp; $(this.document).off(this.delegateNS);
 
     // 从DOM中移除element
     this.element.remove();

@@ -49,7 +49,7 @@
             "is_constructor": 1,
             "extends": "Base",
             "example": [
-                "\n```\n// 创建子类\nvar PersonWidget = Widget.extend({\n  setup: function () {\n    // 通知事件 `setup`\n    this.fire('setup', this.option('name'), this.option('age'));\n  }\n});\n// 创建子类实例\nvar tom = new PersonWidget({\n  name: 'Tom',\n  age: 21,\n  // 订阅事件\n  events: {\n    // `setup`\n    setup: function (e, name, age) {\n      // e === 'setup'\n      // name === 'Tom'\n      // age === 21\n      // this === tom\n    },\n    // AOP `before:setup`\n    'before:setup': function (e) {\n      // 执行 `setup` 方法前执行\n      // 此处返回 `false` 将阻止 `setup` 方法执行\n    },\n    // AOP `before:setup`\n    'before:setup': function (e) {\n      // 执行 `setup` 方法后执行\n      // 如果 `setup` 方法被阻止，就不会执行到这里\n    }\n  },\n  // 代理事件\n  delegates: {\n    'click': function (e) {\n      // e.target === this.element[0]\n      // this === tom\n    },\n    'mouseover .avatar': function (e) {\n      // 鼠标悬停在 element 里的 `.avatar` 元素\n    }\n  }\n});\n```"
+                "\n```\n// 创建子类\nvar PersonWidget = Widget.extend({\n  setup: function () {\n    // 通知事件 `setup`\n    this.fire('setup', this.option('name'), this.option('age'));\n  }\n});\n// 创建子类实例\nvar tom = new PersonWidget({\n  name: 'Tom',\n  age: 21,\n  // 订阅事件\n  events: {\n    // `setup`\n    setup: function (e, name, age) {\n      // e.type === 'setup'\n      // name === 'Tom'\n      // age === 21\n      // this === tom\n    },\n    // AOP `before:setup`\n    'before:setup': function (e) {\n      // 执行 `setup` 方法前执行\n      // 此处返回 `false` 将阻止 `setup` 方法执行\n    },\n    // AOP `before:setup`\n    'before:setup': function (e) {\n      // 执行 `setup` 方法后执行\n      // 如果 `setup` 方法被阻止，就不会执行到这里\n    }\n  },\n  // 代理事件\n  delegates: {\n    'click': function (e) {\n      // e.target === this.element[0]\n      // this === tom\n    },\n    'mouseover .avatar': function (e) {\n      // 鼠标悬停在 element 里的 `.avatar` 元素\n    }\n  }\n});\n```"
             ]
         }
     },
@@ -72,7 +72,27 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 106,
+            "line": 91,
+            "description": "实例唯一ID",
+            "itemtype": "property",
+            "name": "uniqueId",
+            "type": "String",
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 98,
+            "description": "用于 DOM 事件绑定的 NAMESPACE",
+            "itemtype": "property",
+            "name": "delegateNS",
+            "type": "String",
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 119,
             "description": "默认参数，子类自动继承并覆盖",
             "itemtype": "property",
             "name": "defaults",
@@ -82,7 +102,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 123,
+            "line": 136,
             "description": "寻找 element 后代，参数为空时，返回 element",
             "itemtype": "method",
             "name": "$",
@@ -103,16 +123,73 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 134,
-            "description": "自动执行的设置函数，预留用于子类覆盖",
+            "line": 147,
+            "description": "初始化 `container` 与 `element`",
             "itemtype": "method",
-            "name": "setup",
+            "name": "initCaE",
+            "return": {
+                "description": "当前实例",
+                "type": "Object"
+            },
             "class": "Widget",
             "module": "Widget"
         },
         {
             "file": "src\\widget.js",
-            "line": 142,
+            "line": 154,
+            "description": "容器/插入参考点",
+            "itemtype": "property",
+            "name": "container（容器",
+            "type": "Object",
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 161,
+            "description": "组件根元素",
+            "itemtype": "property",
+            "name": "element",
+            "type": "Object",
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 174,
+            "description": "初始化 `document` 与 `viewport`",
+            "itemtype": "method",
+            "name": "initDaV",
+            "return": {
+                "description": "当前实例",
+                "type": "Object"
+            },
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 181,
+            "description": "`element` 所在的 `document` 对象",
+            "itemtype": "property",
+            "name": "document",
+            "type": "Document",
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 188,
+            "description": "`element` 所在的 `window` 对象",
+            "itemtype": "property",
+            "name": "viewport",
+            "type": "Window",
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 200,
             "description": "事件代理，绑定在 element 上",
             "itemtype": "method",
             "name": "initDelegates",
@@ -133,36 +210,99 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 184,
+            "line": 242,
+            "description": "显示触发器",
+            "itemtype": "method",
+            "name": "initTrigger",
+            "params": [
+                {
+                    "name": "trigger",
+                    "description": "触发器",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "当前实例",
+                "type": "Object"
+            },
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 273,
+            "description": "自动执行的设置函数，预留用于子类覆盖",
+            "itemtype": "method",
+            "name": "setup",
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 281,
             "description": "插入elemnt到container",
             "itemtype": "method",
             "name": "render",
+            "return": {
+                "description": "当前实例",
+                "type": "Object"
+            },
             "class": "Widget",
             "module": "Widget"
         },
         {
             "file": "src\\widget.js",
-            "line": 197,
-            "description": "`element` 所在的 `document` 对象",
-            "itemtype": "property",
-            "name": "document",
-            "type": "Object",
+            "line": 315,
+            "description": "判断：显示状态等，参见 `jq` 的 `is`",
+            "example": [
+                "\n```\ninstance.is(':hidden')\n```"
+            ],
+            "itemtype": "method",
+            "name": "is",
+            "params": [
+                {
+                    "name": "condition",
+                    "description": "判断语句",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
             "class": "Widget",
             "module": "Widget"
         },
         {
             "file": "src\\widget.js",
-            "line": 204,
-            "description": "`element` 所在的 `window` 对象",
-            "itemtype": "property",
-            "name": "viewport",
-            "type": "Object",
+            "line": 331,
+            "description": "显示",
+            "itemtype": "method",
+            "name": "show",
+            "return": {
+                "description": "当前实例",
+                "type": "Object"
+            },
             "class": "Widget",
             "module": "Widget"
         },
         {
             "file": "src\\widget.js",
-            "line": 227,
+            "line": 341,
+            "description": "隐藏",
+            "itemtype": "method",
+            "name": "hide",
+            "return": {
+                "description": "当前实例",
+                "type": "Object"
+            },
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 351,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
