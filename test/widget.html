@@ -91,7 +91,36 @@
         widgetA.destroy();
       });
 
-      test('render', function() {
+      test('trigger', function() {
+        var WidgetA = Widget.extend({
+        });
+        var widgetA = new WidgetA({
+          trigger: '#qunit-fixture'
+        });
+        ok( $('.ue-component').length === 0, '' );
+        $('#qunit-fixture').trigger('click');
+        ok( $('.ue-component').length === 1, '' );
+        ok( $('.ue-component').is(':visible'), '' );
+        // for next tests
+        widgetA.destroy();
+      });
+
+      test('is/show/hide', function() {
+        var WidgetA = Widget.extend({
+        });
+        var widgetA = new WidgetA({
+        });
+        widgetA.render();
+        ok( widgetA.is(':visible'), '' );
+        widgetA.hide();
+        ok( widgetA.is(':hidden'), '' );
+        widgetA.show();
+        ok( widgetA.is(':visible'), '' );
+        // for next tests
+        widgetA.destroy();
+      });
+
+      test('template', function() {
         var WidgetA = Widget.extend({
         });
         var widgetA = new WidgetA({
@@ -99,7 +128,6 @@
             return 123;
           }
         });
-        widgetA.render();
         widgetA.render();
         equal( $('.ue-component').text(), '123', '' );
         // for next tests

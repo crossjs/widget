@@ -91,7 +91,37 @@
         widgetA.destroy();
       });
 
-      test('render', function() {
+      test('trigger', function() {
+        var WidgetA = Widget.extend({
+        });
+        var widgetA = new WidgetA({
+          trigger: '#qunit-fixture'
+        });
+        ok( $('.ue-component').length === 0, '' );
+        $('#qunit-fixture').trigger('click');
+        $('#qunit-fixture').trigger('click');
+        ok( $('.ue-component').length === 1, '' );
+        ok( $('.ue-component').is(':visible'), '' );
+        // for next tests
+        widgetA.destroy();
+      });
+
+      test('is/show/hide', function() {
+        var WidgetA = Widget.extend({
+        });
+        var widgetA = new WidgetA({
+        });
+        widgetA.render();
+        ok( widgetA.is(':visible'), '' );
+        widgetA.hide();
+        ok( widgetA.is(':hidden'), '' );
+        widgetA.show();
+        ok( widgetA.is(':visible'), '' );
+        // for next tests
+        widgetA.destroy();
+      });
+
+      test('template', function() {
         var WidgetA = Widget.extend({
         });
         var widgetA = new WidgetA({
@@ -100,8 +130,22 @@
           }
         });
         widgetA.render();
-        widgetA.render();
         equal( $('.ue-component').text(), '123', '' );
+        // for next tests
+        widgetA.destroy();
+      });
+
+      test('insert', function() {
+        var WidgetA = Widget.extend({
+        });
+        var widgetA = new WidgetA({
+          insert: function () {
+            this.container.prepend(this.element);
+          }
+        });
+        widgetA.render();
+        widgetA.render();
+        equal( widgetA.$().prev().length, 0, '' );
         // for next tests
         widgetA.destroy();
       });
@@ -124,6 +168,9 @@
         var WidgetA = Widget.extend({
         });
         var widgetA = new WidgetA({
+        });
+        widgetA.on('destroy', function () {
+          ok( true, 'before destroy' );
         });
         widgetA.render();
         widgetA.destroy();
@@ -161,14 +208,8 @@
           z: 4,
           events: events
         });
-        deepEqual( widgetA.option(), {
-          container: 'body',
-          element: '<div class="ue-component"></div>',
-          x: 2,
-          y: 3,
-          z: 4,
-          events: events
-        }, '' );
+        equal( widgetA.option('container'), 'body', '' );
+        equal( widgetA.option('element'), '<div class="ue-component"></div>', '' );
         equal( widgetA.option('y'), 3, '' );
         equal( widgetA.option('w'), undefined, '' );
         deepEqual( widgetA.option('events'), events, '' );
