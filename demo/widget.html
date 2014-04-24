@@ -85,6 +85,28 @@
         equal( widgetA.y, undefined, '' );
       });
 
+      test('data', function() {
+        var WidgetA = Widget.extend({
+        });
+        var widgetA = new WidgetA({
+          data: {
+            a: 1
+          }
+        });
+        equal( widgetA.option('data/a'), 1, '' );
+        deepEqual( widgetA.option('data'), {a: 1}, '' );
+        equal( widgetA.data('a'), 1, '' );
+        equal( widgetA.data('a/b/c/d', 1), widgetA, '' );
+        equal( widgetA.data('a/b/c/d'), '1', '' );
+        deepEqual( widgetA.data('a/b/c/'), {d:1}, '' );
+        equal( widgetA.data('hasOwnProperty'), undefined, '' );
+        equal( widgetA.data('b'), undefined, '' );
+        equal( widgetA.data({a: '2'}), widgetA, '' );
+        equal( widgetA.data('a'), '2', '' );
+        equal( widgetA.data('a/b'), undefined, '' );
+        deepEqual( widgetA.data(), {a: '2'}, '' );
+      });
+
       test('render', function() {
         var WidgetA = Widget.extend({
         });
