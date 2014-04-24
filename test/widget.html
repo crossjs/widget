@@ -36,21 +36,27 @@
       QUnit.start();
 
       test('new', function() {
-        notEqual( new Widget(), new Widget(), 'new' );
+        notEqual( new Widget(), new Widget(), '' );
+      });
+
+      test('Widget.get', function() {
+        var WidgetA = Widget.extend();
+        var widgetA = new WidgetA();
+        equal( Widget.get(widgetA.element), widgetA, '' );
       });
 
       test('constructor', function() {
         var WidgetA = Widget.extend();
         var widgetA = new WidgetA();
-        equal( widgetA.constructor, WidgetA, 'constructor' );
-        notEqual( widgetA.constructor, Widget, 'constructor' );
+        equal( widgetA.constructor, WidgetA, '' );
+        notEqual( widgetA.constructor, Widget, '' );
       });
 
       test('instanceof', function() {
         var WidgetA = Widget.extend();
         var widgetA = new WidgetA();
-        ok( widgetA instanceof WidgetA, 'instanceof' );
-        ok( widgetA instanceof Widget, 'instanceof' );
+        ok( widgetA instanceof WidgetA, '' );
+        ok( widgetA instanceof Widget, '' );
       });
 
       test('extend', function() {
@@ -83,10 +89,11 @@
         var WidgetA = Widget.extend({
         });
         var widgetA = new WidgetA({
+          classPrefix: 'ue-test'
         });
         widgetA.render();
         widgetA.render();
-        equal( $('.ue-component').length, 1, '' );
+        equal( $('.ue-test').length, 1, '' );
         // for next tests
         widgetA.destroy();
       });
@@ -95,12 +102,13 @@
         var WidgetA = Widget.extend({
         });
         var widgetA = new WidgetA({
+          classPrefix: 'ue-test',
           trigger: '#qunit-fixture'
         });
-        ok( $('.ue-component').length === 0, '' );
+        ok( $('.ue-test').length === 0, '' );
         $('#qunit-fixture').trigger('click');
-        ok( $('.ue-component').length === 1, '' );
-        ok( $('.ue-component').is(':visible'), '' );
+        ok( $('.ue-test').length === 1, '' );
+        ok( $('.ue-test').is(':visible'), '' );
         // for next tests
         widgetA.destroy();
       });
@@ -124,12 +132,13 @@
         var WidgetA = Widget.extend({
         });
         var widgetA = new WidgetA({
+          classPrefix: 'ue-test',
           template: function () {
             return 123;
           }
         });
         widgetA.render();
-        equal( $('.ue-component').text(), '123', '' );
+        equal( $('.ue-test').text(), '123', '' );
         // for next tests
         widgetA.destroy();
       });
@@ -163,10 +172,25 @@
         widgetA.destroy();
       });
 
+      test('role', function() {
+        var WidgetA = Widget.extend({
+          setup: function () {
+            this.render();
+          }
+        });
+        var widgetA = new WidgetA({
+          content: '<p data-role="p">123</p>'
+        });
+        equal( widgetA.role('p').get(0), widgetA.$('p').get(0), '' );
+        // for next tests
+        widgetA.destroy();
+      });
+
       test('destroy', function() {
         var WidgetA = Widget.extend({
         });
         var widgetA = new WidgetA({
+          classPrefix: 'ue-test'
         });
         widgetA.on('destroy', function () {
           ok( true, 'before destroy' );
@@ -175,7 +199,7 @@
         widgetA.destroy();
         widgetA.destroy();
         equal( widgetA.element, undefined, '' );
-        equal( $('.ue-component').length, 0, '' );
+        equal( $('.ue-test').length, 0, '' );
       });
 
       test('state', function() {
@@ -208,7 +232,7 @@
           events: events
         });
         equal( widgetA.option('container'), 'body', '' );
-        equal( widgetA.option('element'), '<div class="ue-component"></div>', '' );
+        equal( widgetA.option('element'), '<div></div>', '' );
         equal( widgetA.option('y'), 3, '' );
         equal( widgetA.option('w'), undefined, '' );
         deepEqual( widgetA.option('events'), events, '' );
