@@ -129,6 +129,8 @@ var Widget = Base.extend({
     classPrefix: 'ue-component',
     // CSS表，初始化时自动设置
     css: { },
+    // 模板数据
+    data: { },
     // TODO: ue-component 改成 pandora 之类的，以与旧版组件做区别？
     element: '<div></div>',
     // 实现 element 插入到 DOM，基于 container
