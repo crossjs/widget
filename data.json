@@ -102,7 +102,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 141,
+            "line": 140,
             "description": "寻找 element 后代，参数为空时，返回 element",
             "itemtype": "method",
             "name": "$",
@@ -123,7 +123,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 152,
+            "line": 151,
             "description": "获取 role 对应的元素，通过 [data-role=xxx]",
             "itemtype": "method",
             "name": "role",
@@ -143,7 +143,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 163,
+            "line": 162,
             "description": "初始化 `container` 与 `element`",
             "itemtype": "method",
             "name": "initCnE",
@@ -156,7 +156,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 170,
+            "line": 169,
             "description": "容器/插入参考点",
             "itemtype": "property",
             "name": "container（容器",
@@ -166,7 +166,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 177,
+            "line": 176,
             "description": "组件根元素",
             "itemtype": "property",
             "name": "element",
@@ -176,7 +176,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 190,
+            "line": 189,
             "description": "初始化 `document` 与 `viewport`",
             "itemtype": "method",
             "name": "initDnV",
@@ -189,7 +189,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 197,
+            "line": 196,
             "description": "`element` 所在的 `document` 对象",
             "itemtype": "property",
             "name": "document",
@@ -199,7 +199,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 204,
+            "line": 203,
             "description": "`element` 所在的 `window` 对象",
             "itemtype": "property",
             "name": "viewport",
@@ -209,7 +209,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 216,
+            "line": 215,
             "description": "事件代理，绑定在 element 上",
             "itemtype": "method",
             "name": "initDelegates",
@@ -230,7 +230,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 258,
+            "line": 257,
             "description": "显示触发器",
             "itemtype": "method",
             "name": "initTrigger",
@@ -251,7 +251,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 292,
+            "line": 291,
             "description": "自动执行的设置函数，预留用于子类覆盖",
             "itemtype": "method",
             "name": "setup",
@@ -260,7 +260,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 300,
+            "line": 299,
             "description": "插入elemnt到container",
             "itemtype": "method",
             "name": "render",
@@ -273,7 +273,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 327,
+            "line": 326,
             "description": "通知渲染",
             "itemtype": "event",
             "name": "render",
@@ -289,7 +289,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 338,
+            "line": 337,
             "description": "判断：显示状态等，参见 `jq` 的 `is`",
             "example": [
                 "\n```\ninstance.is(':hidden')\n```"
@@ -312,7 +312,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 354,
+            "line": 353,
             "description": "显示",
             "itemtype": "method",
             "name": "show",
@@ -325,7 +325,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 363,
+            "line": 362,
             "description": "通知显示",
             "itemtype": "event",
             "name": "show",
@@ -341,7 +341,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 374,
+            "line": 373,
             "description": "隐藏",
             "itemtype": "method",
             "name": "hide",
@@ -354,7 +354,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 383,
+            "line": 382,
             "description": "通知隐藏",
             "itemtype": "event",
             "name": "hide",
@@ -370,7 +370,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 394,
+            "line": 393,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
@@ -379,7 +379,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 399,
+            "line": 398,
             "description": "通知销毁",
             "itemtype": "event",
             "name": "destroy",
@@ -395,7 +395,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 441,
+            "line": 440,
             "description": "通过 element 取 widget 实例",
             "itemtype": "method",
             "name": "get",
