@@ -128,8 +128,7 @@ var Widget = Base.extend({
     container: 'body',
     classPrefix: 'ue-component',
     // CSS表，初始化时自动设置
-    css: {
-    },
+    css: { },
     // TODO: ue-component 改成 pandora 之类的，以与旧版组件做区别？
     element: '<div></div>',
     // 实现 element 插入到 DOM，基于 container
@@ -308,7 +307,7 @@ var Widget = Base.extend({
       template = self.option('template');
 
     if (typeof template === 'function') {
-      content = template(self.data());
+      content = template(self.option('data'));
     } else {
       content = self.option('content');
     }

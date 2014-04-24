@@ -36,7 +36,7 @@
       QUnit.start();
 
       test('new', function() {
-        notEqual( new Widget(), new Widget(), 'new' );
+        notEqual( new Widget(), new Widget(), '' );
       });
 
       test('Widget.get', function() {
@@ -48,15 +48,15 @@
       test('constructor', function() {
         var WidgetA = Widget.extend();
         var widgetA = new WidgetA();
-        equal( widgetA.constructor, WidgetA, 'constructor' );
-        notEqual( widgetA.constructor, Widget, 'constructor' );
+        equal( widgetA.constructor, WidgetA, '' );
+        notEqual( widgetA.constructor, Widget, '' );
       });
 
       test('instanceof', function() {
         var WidgetA = Widget.extend();
         var widgetA = new WidgetA();
-        ok( widgetA instanceof WidgetA, 'instanceof' );
-        ok( widgetA instanceof Widget, 'instanceof' );
+        ok( widgetA instanceof WidgetA, '' );
+        ok( widgetA instanceof Widget, '' );
       });
 
       test('extend', function() {
@@ -202,56 +202,6 @@
         equal( $('.ue-test').length, 0, '' );
       });
 
-      test('state', function() {
-        var WidgetA = Widget.extend({
-        });
-        var widgetA = new WidgetA({
-        });
-        equal( widgetA.state(), undefined, '' );
-        widgetA.state(1);
-        equal( widgetA.state(), 1, '' );
-      });
-
-      test('option', function() {
-        var WidgetA = Widget.extend({
-          defaults: {
-            y: 5,
-            z: 4
-          }
-        });
-        var events = {
-          a: function () {
-          },
-          b: function () {
-          }
-        };
-        var widgetA = new WidgetA({
-          x: 2,
-          y: 3,
-          z: 4,
-          events: events
-        });
-        equal( widgetA.option('container'), 'body', '' );
-        equal( widgetA.option('element'), '<div></div>', '' );
-        equal( widgetA.option('y'), 3, '' );
-        equal( widgetA.option('w'), undefined, '' );
-        deepEqual( widgetA.option('events'), events, '' );
-      });
-
-      test('data', function() {
-        var WidgetA = Widget.extend({
-        });
-        var widgetA = new WidgetA({
-        });
-        deepEqual( widgetA.data(), {}, '' );
-        equal( widgetA.data('a', '1'), widgetA, '' );
-        equal( widgetA.data('a'), '1', '' );
-        equal( widgetA.data('hasOwnProperty'), undefined, 'built-in property returns undefined' );
-        equal( widgetA.data('b'), undefined, '' );
-        equal( widgetA.data({b: '2'}), widgetA, '' );
-        deepEqual( widgetA.data(), {a: '1', b: '2'}, '' );
-      });
-
       test('delegate', function() {
         var WidgetA = Widget.extend({
           setup: function () {
@@ -298,51 +248,6 @@
         widgetA.element.click();
         widgetA.$('button').click();
         widgetA.destroy();
-      });
-
-      test('events', function() {
-        var widget = new Widget({
-          events: {
-            test: function (e, t) {
-              this.t = t;
-              this.e = e;
-            },
-            test2: 'setup'
-          }
-        });
-        widget.fire('test', '2');
-        equal( widget.e.type, 'test', '' );
-        equal( widget.t, '2', '' );
-        widget.off('test');
-        widget.fire('test', '4');
-        equal( widget.t, '2', '' );
-      });
-
-      test('AOP', function() {
-        var WidgetA = Widget.extend({
-          hello: function () {
-            return 'hello ' + this.data('world');
-          }
-        });
-        var widgetA = new WidgetA({
-          events: {
-            'before:hello': function () {
-              if (this.data('world') === 'mars') {
-                return false;
-              }
-              this.data('world', 'mars');
-              ok( true, 'before called');
-            },
-            'after:hello': function (e, result) {
-              ok( true, 'after called');
-            },
-            'after:hello2': function (e, result) {
-            }
-          },
-          world: 'earth'
-        });
-        equal( widgetA.hello(), 'hello mars', 'method called' );
-        equal( widgetA.hello(), undefined, 'prevented' );
       });
 
     });
