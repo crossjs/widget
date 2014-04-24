@@ -252,6 +252,18 @@ var Widget = Base.extend({
   },
 
   /**
+   * 获取模板，基于 &#x60;option&#x60; 方法
+   *
+   * @method data
+   * @param {String} [key] 键
+   * @param {Mixed} [value] 值
+   * @return {Mixed} 整个 data 参数列表或指定参数值
+   */
+  data: function (key, value) {
+    return this.option(key, value, this.option(&#x27;data&#x27;));
+  },
+
+  /**
    * 初始化 &#x60;container&#x60; 与 &#x60;element&#x60;
    *
    * @method initCnE
