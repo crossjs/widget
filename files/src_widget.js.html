@@ -102,7 +102,8 @@ var $ = require(&#x27;$&#x27;),
   Base = require(&#x27;base&#x27;);
 
 var DELEGATE_SPLITTER = /^(\S+)\s*(.*)$/,
-  DELEGATE_NAMESPACE = &#x27;.delegate-widget-&#x27;;
+  DELEGATE_NAMESPACE = &#x27;.delegate-widget-&#x27;,
+  DATA_WIDGET_UNIQUEID = &#x27;data-widget-uid&#x27;;
 
 var cachedInstances = {};
 
@@ -192,9 +193,9 @@ var Widget = Base.extend({
      */
     self.delegateNS = DELEGATE_NAMESPACE + self.uniqueId;
 
-    self.initCaE();
+    self.initCnE();
 
-    self.initDaV();
+    self.initDnV();
 
     self.initDelegates();
 
@@ -215,8 +216,12 @@ var Widget = Base.extend({
   defaults: {
     // 默认插入到的容器，设置为 &#x60;null&#x60; 则不执行插入
     container: &#x27;body&#x27;,
+    classPrefix: &#x27;ue-component&#x27;,
+    // CSS表，初始化时自动设置
+    css: {
+    },
     // TODO: ue-component 改成 pandora 之类的，以与旧版组件做区别？
-    element: &#x27;&lt;div class=&quot;ue-component&quot;&gt;&lt;/div&gt;&#x27;,
+    element: &#x27;&lt;div&gt;&lt;/div&gt;&#x27;,
     // 实现 element 插入到 DOM，基于 container
     insert: function () {
       this.container.length &amp;&amp; this.container.append(this.element);
@@ -235,12 +240,23 @@ var Widget = Base.extend({
   },
 
   /**
+   * 获取 role 对应的元素，通过 [data-role=xxx]
+   *
+   * @method role
+   * @param {Mixed} role data-role 的值
+   * @return {Object} jQuery 包装的 DOM 节点
+   */
+  role: function (role) {
+    return this.$(&#x27;[data-role=&#x27; + role + &#x27;]&#x27;);
+  },
+
+  /**
    * 初始化 &#x60;container&#x60; 与 &#x60;element&#x60;
    *
-   * @method initCaE
+   * @method initCnE
    * @return {Object} 当前实例
    */
-  initCaE: function () {
+  initCnE: function () {
     /**
      * 容器/插入参考点
      *
@@ -254,9 +270,9 @@ var Widget = Base.extend({
      * @property {Object} element
      */
     this.element = $(this.option(&#x27;element&#x27;))
-        .attr(&#x27;widget-id&#x27;, this.uniqueId)
+        .attr(DATA_WIDGET_UNIQUEID, this.uniqueId)
         .addClass(this.option(&#x27;classPrefix&#x27;))
-        .hide();
+        .css(this.option(&#x27;css&#x27;));
 
     return this;
   },
@@ -264,10 +280,10 @@ var Widget = Base.extend({
   /**
    * 初始化 &#x60;document&#x60; 与 &#x60;viewport&#x60;
    *
-   * @method initDaV
+   * @method initDnV
    * @return {Object} 当前实例
    */
-  initDaV: function () {
+  initDnV: function () {
     /**
      * &#x60;element&#x60; 所在的 &#x60;document&#x60; 对象
      *
@@ -345,9 +361,10 @@ var Widget = Base.extend({
       return self;
     }
 
-    $(this.document)
+    $(self.document)
       .on(&#x27;click&#x27; + self.delegateNS, trigger, function (e) {
-        // e.preventDefault();
+        e.preventDefault();
+
         self.activeTrigger = e.currentTarget;
 
         if (!self.rendered) {
@@ -356,6 +373,8 @@ var Widget = Base.extend({
 
         self.show();
       });
+
+    self.hide();
 
     return self;
   },
@@ -388,16 +407,20 @@ var Widget = Base.extend({
       self.element.html(content);
     }
 
-    if (!self.option(&#x27;trigger&#x27;)) {
-      self.show();
-    }
-
     if (!self.rendered) {
       // 插入到容器中
       self.option(&#x27;insert&#x27;).call(self);
 
       self.rendered = true;
     }
+
+    /**
+     * 通知渲染
+     *
+     * @event render
+     * @param {Object} e Event.
+     */
+    self.fire(&#x27;render&#x27;);
 
     return self;
   },
@@ -425,7 +448,17 @@ var Widget = Base.extend({
    * @return {Object} 当前实例
    */
   show: function () {
-    return this.element.show();
+    this.element.show();
+
+    /**
+     * 通知显示
+     *
+     * @event show
+     * @param {Object} e Event.
+     */
+    this.fire(&#x27;show&#x27;);
+
+    return this;
   },
 
   /**
@@ -435,7 +468,17 @@ var Widget = Base.extend({
    * @return {Object} 当前实例
    */
   hide: function () {
-    return this.element.hide();
+    this.element.hide();
+
+    /**
+     * 通知隐藏
+     *
+     * @event hide
+     * @param {Object} e Event.
+     */
+    this.fire(&#x27;hide&#x27;);
+
+    return this;
   },
 
   /**
@@ -443,7 +486,12 @@ var Widget = Base.extend({
    * @method destroy
    */
   destroy: function () {
-    // 通知销毁
+    /**
+     * 通知销毁
+     *
+     * @event destroy
+     * @param {Object} e Event.
+     */
     this.fire(&#x27;destroy&#x27;);
 
     // 移除 element 事件代理
@@ -474,11 +522,24 @@ var uniqueId = (function () {
 
 // For memory leak, from aralejs
 $(window).unload(function() {
-  var cid;
-  for(cid in cachedInstances) {
-    cachedInstances[cid].destroy();
+  var uid;
+  for(uid in cachedInstances) {
+    cachedInstances[uid].destroy();
   }
 });
+
+/**
+ * 通过 element 取 widget 实例
+ *
+ * @method get
+ * @return {Mixed} selector
+ * @static
+ */
+Widget.get = function (selector) {
+  var element = $(selector).eq(0), uid;
+  element.length &amp;&amp; (uid = element.attr(DATA_WIDGET_UNIQUEID));
+  return cachedInstances[uid];
+};
 
 module.exports = Widget;
 

@@ -28,7 +28,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "src\\widget.js",
-            "line": 21,
+            "line": 22,
             "description": "组件基类"
         }
     },
@@ -44,7 +44,7 @@
             "module": "Widget",
             "namespace": "",
             "file": "src\\widget.js",
-            "line": 21,
+            "line": 22,
             "description": "组件基类",
             "is_constructor": 1,
             "extends": "Base",
@@ -56,7 +56,7 @@
     "classitems": [
         {
             "file": "src\\widget.js",
-            "line": 76,
+            "line": 77,
             "description": "初始化函数，将自动执行；实现事件自动订阅与初始化组件参数",
             "itemtype": "method",
             "name": "initialize",
@@ -72,7 +72,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 91,
+            "line": 92,
             "description": "实例唯一ID",
             "itemtype": "property",
             "name": "uniqueId",
@@ -82,7 +82,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 98,
+            "line": 99,
             "description": "用于 DOM 事件绑定的 NAMESPACE",
             "itemtype": "property",
             "name": "delegateNS",
@@ -92,7 +92,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 119,
+            "line": 120,
             "description": "默认参数，子类自动继承并覆盖",
             "itemtype": "property",
             "name": "defaults",
@@ -102,7 +102,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 136,
+            "line": 141,
             "description": "寻找 element 后代，参数为空时，返回 element",
             "itemtype": "method",
             "name": "$",
@@ -123,10 +123,30 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 147,
+            "line": 152,
+            "description": "获取 role 对应的元素，通过 [data-role=xxx]",
+            "itemtype": "method",
+            "name": "role",
+            "params": [
+                {
+                    "name": "role",
+                    "description": "data-role 的值",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "jQuery 包装的 DOM 节点",
+                "type": "Object"
+            },
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 163,
             "description": "初始化 `container` 与 `element`",
             "itemtype": "method",
-            "name": "initCaE",
+            "name": "initCnE",
             "return": {
                 "description": "当前实例",
                 "type": "Object"
@@ -136,7 +156,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 154,
+            "line": 170,
             "description": "容器/插入参考点",
             "itemtype": "property",
             "name": "container（容器",
@@ -146,7 +166,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 161,
+            "line": 177,
             "description": "组件根元素",
             "itemtype": "property",
             "name": "element",
@@ -156,10 +176,10 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 174,
+            "line": 190,
             "description": "初始化 `document` 与 `viewport`",
             "itemtype": "method",
-            "name": "initDaV",
+            "name": "initDnV",
             "return": {
                 "description": "当前实例",
                 "type": "Object"
@@ -169,7 +189,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 181,
+            "line": 197,
             "description": "`element` 所在的 `document` 对象",
             "itemtype": "property",
             "name": "document",
@@ -179,7 +199,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 188,
+            "line": 204,
             "description": "`element` 所在的 `window` 对象",
             "itemtype": "property",
             "name": "viewport",
@@ -189,7 +209,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 200,
+            "line": 216,
             "description": "事件代理，绑定在 element 上",
             "itemtype": "method",
             "name": "initDelegates",
@@ -210,7 +230,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 242,
+            "line": 258,
             "description": "显示触发器",
             "itemtype": "method",
             "name": "initTrigger",
@@ -231,7 +251,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 273,
+            "line": 292,
             "description": "自动执行的设置函数，预留用于子类覆盖",
             "itemtype": "method",
             "name": "setup",
@@ -240,7 +260,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 281,
+            "line": 300,
             "description": "插入elemnt到container",
             "itemtype": "method",
             "name": "render",
@@ -253,7 +273,23 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 315,
+            "line": 327,
+            "description": "通知渲染",
+            "itemtype": "event",
+            "name": "render",
+            "params": [
+                {
+                    "name": "e",
+                    "description": "Event.",
+                    "type": "Object"
+                }
+            ],
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 338,
             "description": "判断：显示状态等，参见 `jq` 的 `is`",
             "example": [
                 "\n```\ninstance.is(':hidden')\n```"
@@ -276,7 +312,7 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 331,
+            "line": 354,
             "description": "显示",
             "itemtype": "method",
             "name": "show",
@@ -289,7 +325,23 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 341,
+            "line": 363,
+            "description": "通知显示",
+            "itemtype": "event",
+            "name": "show",
+            "params": [
+                {
+                    "name": "e",
+                    "description": "Event.",
+                    "type": "Object"
+                }
+            ],
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 374,
             "description": "隐藏",
             "itemtype": "method",
             "name": "hide",
@@ -302,10 +354,56 @@
         },
         {
             "file": "src\\widget.js",
-            "line": 351,
+            "line": 383,
+            "description": "通知隐藏",
+            "itemtype": "event",
+            "name": "hide",
+            "params": [
+                {
+                    "name": "e",
+                    "description": "Event.",
+                    "type": "Object"
+                }
+            ],
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 394,
             "description": "销毁当前组件对象",
             "itemtype": "method",
             "name": "destroy",
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 399,
+            "description": "通知销毁",
+            "itemtype": "event",
+            "name": "destroy",
+            "params": [
+                {
+                    "name": "e",
+                    "description": "Event.",
+                    "type": "Object"
+                }
+            ],
+            "class": "Widget",
+            "module": "Widget"
+        },
+        {
+            "file": "src\\widget.js",
+            "line": 441,
+            "description": "通过 element 取 widget 实例",
+            "itemtype": "method",
+            "name": "get",
+            "return": {
+                "description": "selector",
+                "type": "Mixed"
+            },
+            "static": 1,
             "class": "Widget",
             "module": "Widget"
         }
