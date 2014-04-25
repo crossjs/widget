@@ -317,17 +317,17 @@ var Widget = Base.extend({
    */
   render: function () {
     var self = this,
-      content,
+      html,
       template = self.option('template');
 
     if (typeof template === 'function') {
-      content = template(self.option('data'));
+      html = template(self.option('data'));
     } else {
-      content = self.option('content');
+      html = self.option('content');
     }
 
-    if (typeof content !== 'undefined') {
-      self.element.html(content);
+    if (typeof html !== 'undefined') {
+      self.element.html(html);
     }
 
     if (!self.rendered) {
