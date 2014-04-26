@@ -297,7 +297,8 @@ var Widget = Base.extend({
         self.show();
       });
 
-    self.hide();
+    // 如果有 trigger，则默认隐藏
+    self.element.hide();
 
     return self;
   },
