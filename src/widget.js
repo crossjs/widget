@@ -422,7 +422,7 @@ var Widget = Base.extend({
     this.element && this.element.off(this.delegateNS);
 
     // 移除 document 事件代理
-    this.trigger && this.document && $(this.document).off(this.delegateNS);
+    this.document && $(this.document).off(this.delegateNS);
 
     // 从DOM中移除element
     this.element.remove();
