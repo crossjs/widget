@@ -1,7 +1,7 @@
 #widget
 
-[![Build Status](https://api.travis-ci.org/crossjs/widget.png?branch=master)](http://travis-ci.org/crossjs/widget)
-[![Coverage Status](https://coveralls.io/repos/crossjs/widget/badge.png?branch=master)](https://coveralls.io/r/crossjs/widget?branch=master)
+[![Build Status](https://api.travis-ci.org/pandorajs/widget.png?branch=master)](http://travis-ci.org/pandorajs/widget)
+[![Coverage Status](https://coveralls.io/repos/pandorajs/widget/badge.png?branch=master)](https://coveralls.io/r/pandorajs/widget?branch=master)
 
  > widget base class, seajs module
 
@@ -17,6 +17,10 @@
 
 1. run `spm install pandora/widget`
 1. write `require('pandora/widget/VERSION.NUMBER/widget')`
+
+##find examples
+
+1. view the source files in '/src'
 
 ##history
 

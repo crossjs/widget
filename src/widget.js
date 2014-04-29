@@ -322,7 +322,7 @@ var Widget = Base.extend({
       template = self.option('template');
 
     if (typeof template === 'function') {
-      html = template(self.option('data'));
+      html = template(self.option('data'), self.option('templateOptions'));
     } else {
       html = self.option('content');
     }
