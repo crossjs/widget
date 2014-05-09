@@ -78,9 +78,9 @@ var Widget = Base.extend({
    * 初始化函数，将自动执行；实现事件自动订阅与初始化组件参数
    *
    * @method initialize
-   * @param {Object} options 组件参数
+   * @param {Object} [options] 组件参数
    */
-  initialize: function (options) {
+  initialize: function (/*options*/) {
     var self = this;
 
     Widget.superclass.initialize.apply(self, arguments);
@@ -312,15 +312,27 @@ var Widget = Base.extend({
   },
 
   /**
-   * 插入elemnt到container
+   * 解析内容，将 elemnt 插入到 container
+   *
    * @method render
    * @return {Object} 当前实例
    */
   render: function () {
     var self = this,
-      html,
+      html, container,
+      content = self.option('content'),
       template = self.option('template');
 
+    if (content instanceof Widget) {
+      content = content.$();
+      // 清除
+      self.option('content', '');
+      self.option('data/content', '');
+    } else {
+      content = null;
+    }
+
+    // 处理模板与 content 为 text|html 的情况
     if (typeof template === 'function') {
       html = template(self.option('data'), self.option('templateOptions'));
     } else {
@@ -329,6 +341,15 @@ var Widget = Base.extend({
 
     if (typeof html !== 'undefined') {
       self.element.html(html);
+    }
+
+    // 处理 content 为其它 widget 实例的情况
+    if (content) {
+      container = self.role('content');
+      if (container.length === 0) {
+        container = self.element;
+      }
+      container.append(content);
     }
 
     if (!self.rendered) {
