@@ -127,7 +127,9 @@
           classPrefix: 'ue-test',
           trigger: '#qunit-fixture'
         });
-        ok( $('.ue-test').length === 0, '' );
+        widgetA.render();
+        ok( $('.ue-test').length === 1, '' );
+        ok( $('.ue-test').is(':hidden'), '' );
         $('#qunit-fixture').trigger('click');
         ok( $('.ue-test').length === 1, '' );
         ok( $('.ue-test').is(':visible'), '' );

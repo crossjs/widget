@@ -11,8 +11,9 @@ define(function (require, exports, module) {
 var $ = require('$'),
   Base = require('base');
 
-var DELEGATE_SPLITTER = /^(\S+)\s*(.*)$/,
-  DELEGATE_NAMESPACE = '.delegate-widget-',
+var DELEGATE_REGEXP = /\{\{(.+?)\}\}/g,
+  DELEGATE_DELIMITER = /^(\S+)\s*(.*)$/,
+  DELEGATE_NS_PREFIX = '.delegate-widget-',
   DATA_WIDGET_UNIQUEID = 'data-widget-uid';
 
 var cachedInstances = {};
@@ -101,15 +102,11 @@ var Widget = Base.extend({
      *
      * @property {String} delegateNS
      */
-    self.delegateNS = DELEGATE_NAMESPACE + self.uniqueId;
+    self.delegateNS = DELEGATE_NS_PREFIX + self.uniqueId;
 
     self.initCnE();
 
-    self.initDnV();
-
     self.initDelegates();
-
-    self.initTrigger();
 
     self.setup();
 
@@ -183,7 +180,7 @@ var Widget = Base.extend({
     /**
      * 容器/插入参考点
      *
-     * @property {Object} container（容器
+     * @property {Object} container（容器）
      */
     this.container = $(this.option('container'));
 
@@ -231,9 +228,10 @@ var Widget = Base.extend({
    *
    * @method initDelegates
    * @param {Object|Function} [delegates] 代理事件列表
+   * @param {jQuery} [element] 绑定代理事件的元素
    * @return {Object} 当前实例
    */
-  initDelegates: function (delegates) {
+  initDelegates: function (delegates, element) {
     var self = this;
 
     delegates || (delegates = self.option('delegates'));
@@ -246,8 +244,14 @@ var Widget = Base.extend({
       delegates = delegates.call(self);
     }
 
+    element = (element ? $(element) : self.element);
+
     $.each(delegates, function (key, callback) {
-      var match = key.match(DELEGATE_SPLITTER),
+      var match = key
+            .replace(DELEGATE_REGEXP, function ($0, $1) {
+              return self.option($1) || '';
+            })
+            .match(DELEGATE_DELIMITER),
         event = match[1] + self.delegateNS;
 
       if (typeof callback === 'string') {
@@ -255,11 +259,11 @@ var Widget = Base.extend({
       }
 
       if (match[2]) {
-        self.element.on(event, match[2], function () {
+        element.on(event, match[2], function () {
           callback.apply(self, arguments);
         });
       } else {
-        self.element.on(event, function () {
+        element.on(event, function () {
           callback.apply(self, arguments);
         });
       }
@@ -276,7 +280,7 @@ var Widget = Base.extend({
    * @return {Object} 当前实例
    */
   initTrigger: function (trigger) {
-    var self = this;
+    var self = this, delegates = {};
 
     trigger || (trigger = self.option('trigger'));
 
@@ -284,18 +288,16 @@ var Widget = Base.extend({
       return self;
     }
 
-    $(self.document)
-      .on('click' + self.delegateNS, trigger, function (e) {
-        e.preventDefault();
+    delegates['click ' + trigger] = function (e) {
+      e.preventDefault();
+      e.stopPropagation();
 
-        self.activeTrigger = e.currentTarget;
+      self.activeTrigger = e.currentTarget;
 
-        if (!self.rendered) {
-          self.render();
-        }
+      self.show();
+    };
 
-        self.show();
-      });
+    self.initDelegates(delegates, $(self.document));
 
     // 如果有 trigger，则默认隐藏
     self.element.hide();
@@ -324,7 +326,7 @@ var Widget = Base.extend({
       template = self.option('template');
 
     if (content instanceof Widget) {
-      content = content.$();
+      content = content.element;
       // 清除
       self.option('content', '');
       self.option('data/content', '');
@@ -355,6 +357,10 @@ var Widget = Base.extend({
     if (!self.rendered) {
       // 插入到容器中
       self.option('insert').call(self);
+
+      self.initDnV();
+
+      self.initTrigger();
 
       self.rendered = true;
     }
@@ -393,6 +399,10 @@ var Widget = Base.extend({
    * @return {Object} 当前实例
    */
   show: function () {
+    if (!this.element) {
+      return this;
+    }
+
     this.element.show();
 
     /**
@@ -413,6 +423,10 @@ var Widget = Base.extend({
    * @return {Object} 当前实例
    */
   hide: function () {
+    if (!this.element) {
+      return this;
+    }
+
     this.element.hide();
 
     /**
@@ -440,13 +454,17 @@ var Widget = Base.extend({
     this.fire('destroy');
 
     // 移除 element 事件代理
-    this.element && this.element.off(this.delegateNS);
+    if (this.element){
+      this.element
+        // 移除 document 事件代理
+        .add(this.document)
+        // 移除 viewport 事件代理
+        .add(this.viewport)
+        .off(this.delegateNS);
 
-    // 移除 document 事件代理
-    this.document && $(this.document).off(this.delegateNS);
-
-    // 从DOM中移除element
-    this.element.remove();
+      // 从DOM中移除element
+      this.element.remove();
+    }
 
     Widget.superclass.destroy.apply(this);
   }
