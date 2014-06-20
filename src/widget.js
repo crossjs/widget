@@ -168,7 +168,7 @@ var Widget = Base.extend({
    * @return {Mixed} 整个 data 参数列表或指定参数值
    */
   data: function (key, value, override) {
-    return this.option(key, value, this.option('data'), override);
+    return this.option(key, value, 'data', override);
   },
 
   /**
