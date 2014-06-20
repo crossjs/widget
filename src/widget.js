@@ -164,10 +164,11 @@ var Widget = Base.extend({
    * @method data
    * @param {String} [key] 键
    * @param {Mixed} [value] 值
+   * @param {Boolean} [override] 是否覆盖（即非深度复制）
    * @return {Mixed} 整个 data 参数列表或指定参数值
    */
-  data: function (key, value) {
-    return this.option(key, value, this.option('data'));
+  data: function (key, value, override) {
+    return this.option(key, value, this.option('data'), override);
   },
 
   /**
