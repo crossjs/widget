@@ -16,6 +16,7 @@
     "console": true,
     "DEBUG": true,
     "require": true,
+    "seajs": true,
     "define": true
   },
   "immed": true,
