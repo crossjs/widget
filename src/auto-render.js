@@ -10,7 +10,7 @@ define(function(require, exports, module) {
    * @class AutoRender
    * @static
    */
-  var $ = require('jquery');
+  var $ = require('$');
   var DATA_WIDGET_AUTO_RENDERED = 'data-widget-auto-rendered';
 
 

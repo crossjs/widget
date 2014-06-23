@@ -10,7 +10,7 @@ define(function(require, exports, module) {
    * @class DAParser
    * @static
    */
-  var $ = require('jquery');
+  var $ = require('$');
 
   /**
    * 得到某个 DOM 元素的 dataset
