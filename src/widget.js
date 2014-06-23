@@ -9,6 +9,8 @@ define(function (require, exports, module) {
 'use strict';
 
 var $ = require('$'),
+  DAParser = require('./daparser'),
+  AutoRender = require('./auto-render'),
   Base = require('base');
 
 var DELEGATE_REGEXP = /\{\{(.+?)\}\}/g,
@@ -81,10 +83,11 @@ var Widget = Base.extend({
    * @method initialize
    * @param {Object} [options] 组件参数
    */
-  initialize: function (/*options*/) {
+  initialize: function (options) {
     var self = this;
 
-    Widget.superclass.initialize.apply(self, arguments);
+    var dataAttrsOptions = this.parserDataAttrsOptions(options);
+    Widget.superclass.initialize.call(self, options ? $.extend(dataAttrsOptions, options) : dataAttrsOptions);
 
     // self.UI = {
     //   'default': {}
@@ -306,6 +309,28 @@ var Widget = Base.extend({
   },
 
   /**
+   * 解析通过 data-attr 设置的 api
+   *
+   * @method parserDataAttrsOptions
+   * @private
+   * @param options
+   * @returns {Object} 返回配置
+   */
+  parserDataAttrsOptions: function(options) {
+    var element, dataAttrsOptions;
+    if (options) {
+      element = options.initElement ? options.initElement : options.element;
+    }
+
+    // 解析 data-api 时，只考虑用户传入的 element，不考虑来自继承或从模板构建的
+    if (element && !AutoRender.isDataApiOff(element)) {
+      dataAttrsOptions = DAParser.parseElement(element);
+    }
+
+    return dataAttrsOptions;
+  },
+
+  /**
    * 自动执行的设置函数，预留用于子类覆盖
    *
    * @method setup
@@ -503,6 +528,22 @@ Widget.get = function (selector) {
   element.length && (uid = element.attr(DATA_WIDGET_UNIQUEID));
   return cachedInstances[uid];
 };
+
+/**
+ * 渲染单个 widget
+ *
+ * @method autoRender
+ * @static
+ */
+Widget.autoRender = AutoRender.autoRender;
+
+/**
+ * 渲染所有 widget
+ *
+ * @method autoRenderAll
+ * @static
+ */
+Widget.autoRenderAll = AutoRender.autoRenderAll;
 
 module.exports = Widget;
 
