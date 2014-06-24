@@ -162,7 +162,7 @@ var Widget = Base.extend({
    * @return {Object} jQuery 包装的 DOM 节点
    */
   role: function (role) {
-    return this.$('[data-role=' + role + ']');
+    return this.$(role.replace(/(?:^\b|\s*,\s*)([_0-9a-zA-Z\-]+)/g, ',[data-role="$1"]').substring(1));
   },
 
   /**
