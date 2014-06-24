@@ -9,8 +9,6 @@ define(function (require, exports, module) {
 'use strict';
 
 var $ = require('$'),
-  DAParser = require('./daparser'),
-  AutoRender = require('./auto-render'),
   Base = require('base');
 
 var DELEGATE_REGEXP = /\{\{(.+?)\}\}/g,
@@ -19,6 +17,13 @@ var DELEGATE_REGEXP = /\{\{(.+?)\}\}/g,
   DATA_WIDGET_UNIQUEID = 'data-widget-uid';
 
 var cachedInstances = {};
+
+function each (obj, func) {
+  var p;
+  for (p in obj) {
+    func.call(null, p, obj[p]);
+  }
+}
 
 // TODO: 检查是否有内存泄漏发生
 
@@ -83,11 +88,10 @@ var Widget = Base.extend({
    * @method initialize
    * @param {Object} [options] 组件参数
    */
-  initialize: function (options) {
+  initialize: function (/*options*/) {
     var self = this;
 
-    var dataAttrsOptions = this.parserDataAttrsOptions(options);
-    Widget.superclass.initialize.call(self, options ? $.extend(dataAttrsOptions, options) : dataAttrsOptions);
+    Widget.superclass.initialize.apply(self, arguments);
 
     // self.UI = {
     //   'default': {}
@@ -250,7 +254,7 @@ var Widget = Base.extend({
 
     element = (element ? $(element) : self.element);
 
-    $.each(delegates, function (key, callback) {
+    each(delegates, function (key, callback) {
       var match = key
             .replace(DELEGATE_REGEXP, function ($0, $1) {
               return self.option($1) || '';
@@ -301,34 +305,12 @@ var Widget = Base.extend({
       self.show();
     };
 
-    self.initDelegates(delegates, $(self.document));
+    self.initDelegates(delegates, self.document);
 
     // 如果有 trigger，则默认隐藏
     self.element.hide();
 
     return self;
-  },
-
-  /**
-   * 解析通过 data-attr 设置的 api
-   *
-   * @method parserDataAttrsOptions
-   * @private
-   * @param options
-   * @returns {Object} 返回配置
-   */
-  parserDataAttrsOptions: function(options) {
-    var element, dataAttrsOptions;
-    if (options) {
-      element = options.initElement ? options.initElement : options.element;
-    }
-
-    // 解析 data-api 时，只考虑用户传入的 element，不考虑来自继承或从模板构建的
-    if (element && !AutoRender.isDataApiOff(element)) {
-      dataAttrsOptions = DAParser.parseElement(element);
-    }
-
-    return dataAttrsOptions;
   },
 
   /**
@@ -362,7 +344,7 @@ var Widget = Base.extend({
 
     // 处理模板与 content 为 text|html 的情况
     if (typeof template === 'function') {
-      html = template(self.option('data'), self.option('templateOptions'));
+      html = template(self.data(), self.option('templateOptions'));
     } else {
       html = self.option('content');
     }
@@ -529,22 +511,6 @@ Widget.get = function (selector) {
   element.length && (uid = element.attr(DATA_WIDGET_UNIQUEID));
   return cachedInstances[uid];
 };
-
-/**
- * 渲染单个 widget
- *
- * @method autoRender
- * @static
- */
-Widget.autoRender = AutoRender.autoRender;
-
-/**
- * 渲染所有 widget
- *
- * @method autoRenderAll
- * @static
- */
-Widget.autoRenderAll = AutoRender.autoRenderAll;
 
 module.exports = Widget;
 

@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>widget</title>
+<link rel="stylesheet" href="../vendor/qunit/qunit.css">
+</head>
+<body>
+  <h1 id="qunit-header">QUnit Test Suite</h1>
+  <h2 id="qunit-banner"></h2>
+  <div id="qunit-testrunner-toolbar"></div>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+  <div id="qunit-fixture">test markup</div>
+  <script src="../vendor/jquery/jquery.js"></script>
+  <script src="../vendor/seajs/sea.js"></script>
+  <script src="../vendor/qunit/qunit.js"></script>
+  <script>
+    QUnit.config.autostart = false;
+
+    var query = location.search.substring(1).split('&');
+    var srcdir = 'src';
+
+    function resolve(file) {
+      if (contain(query, 'debug')) {
+        if (file.indexOf('-debug') === -1) {
+          file = file.replace(/\.(\w+)$/, '-debug.$1');
+        }
+      }
+      return seajs.resolve("../" + srcdir + "/" + file + '#');
+    }
+
+    function contain(arr, value) {
+      for (var i in arr) {
+        if (arr[i] == value) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    seajs.config({
+      'base': '../sea-modules/',
+      'map': [
+        ['/sea-modules/jquery', '/vendor/jquery/jquery']
+      ],
+      'alias': {
+        '$': 'jquery',
+        'base': 'pandora/base/1.0.0/base',
+        'auto-render': resolve('auto-render.js'),
+        'daparser': resolve('daparser.js'),
+        'widget': resolve('widget.js')
+      }
+    });
+
+    seajs.use(['../src/autorender', 'widget'], function (autoRender, Widget) {
+
+      'use strict';
+
+      QUnit.start();
+
+      test('autoRender', function() {
+        var widget = $('<div data-widget="widget" id="test1" data-widget-class-name="widget"></div>').appendTo($('#qunit-fixture'));
+
+        autoRender(function() {
+          var test = Widget.get('#test1');
+
+          equal(test.option('className'), 'widget', 'ok');
+          equal(test.element[0], widget[0], 'ok');
+        });
+      })
+
+    });
+  </script>
+</body>
+</html>

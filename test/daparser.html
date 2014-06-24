@@ -1,110 +1,111 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>auto render widget</title>
-  <link rel="stylesheet" href="../vendor/qunit/qunit.css">
+<meta charset="utf-8">
+<title>auto render widget</title>
+<link rel="stylesheet" href="../vendor/qunit/qunit.css">
 </head>
 <body>
-<h1 id="qunit-header">QUnit Test Suite</h1>
-<h2 id="qunit-banner"></h2>
-<div id="qunit-testrunner-toolbar"></div>
-<h2 id="qunit-userAgent"></h2>
-<ol id="qunit-tests"></ol>
-<div id="qunit-fixture">test markup</div>
-<script src="../vendor/jquery/jquery.js"></script>
-<script src="../vendor/seajs/sea.js"></script>
-<script src="../vendor/qunit/qunit.js"></script>
-<script>
-QUnit.config.autostart = false;
+  <h1 id="qunit-header">QUnit Test Suite</h1>
+  <h2 id="qunit-banner"></h2>
+  <div id="qunit-testrunner-toolbar"></div>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+  <div id="qunit-fixture">test markup</div>
+  <script src="../vendor/jquery/jquery.js"></script>
+  <script src="../vendor/seajs/sea.js"></script>
+  <script src="../vendor/qunit/qunit.js"></script>
+  <script>
 
-var query = location.search.substring(1).split('&');
-var srcdir = 'src';
+    QUnit.config.autostart = false;
 
-function resolve(file) {
-  if (contain(query, 'debug')) {
-    if (file.indexOf('-debug') === -1) {
-      file = file.replace(/\.(\w+)$/, '-debug.$1');
+    var query = location.search.substring(1).split('&');
+    var srcdir = 'src';
+
+    function resolve(file) {
+      if (contain(query, 'debug')) {
+        if (file.indexOf('-debug') === -1) {
+          file = file.replace(/\.(\w+)$/, '-debug.$1');
+        }
+      }
+      return seajs.resolve("../" + srcdir + "/" + file + '#');
     }
-  }
-  return seajs.resolve("../" + srcdir + "/" + file + '#');
-}
 
-function contain(arr, value) {
-  for (var i in arr) {
-    if (arr[i] == value) {
-      return true;
+    function contain(arr, value) {
+      for (var i in arr) {
+        if (arr[i] == value) {
+          return true;
+        }
+      }
+      return false;
     }
-  }
-  return false;
-}
 
-seajs.config({
-  'base': '../sea-modules/',
-  'map': [
-    ['/sea-modules/jquery', '/vendor/jquery/jquery']
-  ],
-  'alias': {
-    '$': 'jquery',
-    'base': 'pandora/base/1.0.0/base',
-    "auto-render": resolve("auto-render.js"),
-    "daparser": resolve("daparser.js"),
-    "widget": resolve("widget.js")
-  }
-});
-
-seajs.use(['../src/daparser'], function (DAParser) {
-
-  'use strict';
-
-  var $fixture = $('#qunit-fixture');
-  QUnit.start();
-
-  test('single data-xx', function() {
-    var div = $('<div data-key="test"></div>').appendTo($fixture);
-    var dataset = DAParser.parseElement(div);
-
-    equal(dataset.key, 'test', 'ok');
-
-  });
-
-  test('multi data-xx', function() {
-    var div = $('<div data-key="test" data-key1="test1"></div>').appendTo($fixture);
-    var dataset = DAParser.parseElement(div);
-
-    equal(dataset.key, 'test', 'ok');
-    equal(dataset['key1'], 'test1', 'ok');
-
-  });
-
-  test('convert dash-name to camelCasedName', function() {
-    var div = $('<div data-x-y-123a-_B="val" data-x-y="val" data-AbcD-x="val"></div>').appendTo($fixture);
-    var dataset = DAParser.parseElement(div);
-
-    //equal(dataset['xY-123a-_b'], 'val', '');
-    equal(dataset['xY'], 'val', 'ok');
-    equal(dataset['abcdX'], 'val', 'ok');
-
-  });
-
-  test('table element', function() {
-    var table = $('<table><tr><td data-x="1"></td></tr></table>').appendTo($fixture)
-    var dataset = DAParser.parseElement(table.find('td')[0]);
-
-    equal(dataset['x'], '1');
-  })
-
-  test('object', function() {
-    var div = $('<div data-object="{\'a\':\'a\', \'b\':1}"></div>').appendTo($fixture)
-    var dataset = DAParser.parseElement(div)
-
-    deepEqual(dataset['object'], {
-      "a":"a",
-      "b": 1
+    seajs.config({
+      'base': '../sea-modules/',
+      'map': [
+        ['/sea-modules/jquery', '/vendor/jquery/jquery']
+      ],
+      'alias': {
+        '$': 'jquery',
+        'base': 'pandora/base/1.0.0/base',
+        'autorender': resolve('autorender.js'),
+        'daparser': resolve('daparser.js'),
+        'widget': resolve('widget.js')
+      }
     });
-  })
 
-});
-</script>
+    seajs.use(['../src/daparser'], function (daParser) {
+
+      'use strict';
+
+      var $fixture = $('#qunit-fixture');
+      QUnit.start();
+
+      test('single data-widget-xx', function() {
+        var div = $('<div data-widget-key="test"></div>').appendTo($fixture);
+        var dataset = daParser(div[0]);
+
+        equal(dataset.key, 'test', 'ok');
+
+      });
+
+      test('multi data-widget-xx', function() {
+        var div = $('<div data-widget-key="test" data-widget-key1="test1"></div>').appendTo($fixture);
+        var dataset = daParser(div[0]);
+
+        equal(dataset.key, 'test', 'ok');
+        equal(dataset['key1'], 'test1', 'ok');
+
+      });
+
+      test('convert dash-name to camelCasedName', function() {
+        var div = $('<div data-widget-x-y-123a-_B="val" data-widget-x-y="val" data-widget-AbcD-x="val"></div>').appendTo($fixture);
+        var dataset = daParser(div[0]);
+
+        //equal(dataset['xY-123a-_b'], 'val', '');
+        equal(dataset['xY'], 'val', 'ok');
+        equal(dataset['abcdX'], 'val', 'ok');
+
+      });
+
+      test('table element', function() {
+        var table = $('<table><tr><td data-widget-x="1"></td></tr></table>').appendTo($fixture)
+        var dataset = daParser(table.find('td')[0]);
+
+        equal(dataset['x'], '1');
+      })
+
+      test('object', function() {
+        var div = $('<div data-widget-object="{\'a\':\'a\', \'b\':1}"></div>').appendTo($fixture)
+        var dataset = daParser(div[0])
+
+        deepEqual(dataset['object'], {
+          "a":"a",
+          "b": 1
+        });
+      })
+
+    });
+  </script>
 </body>
 </html>
