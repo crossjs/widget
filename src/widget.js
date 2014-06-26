@@ -131,6 +131,7 @@ var Widget = Base.extend({
     // 默认插入到的容器，设置为 `null` 则不执行插入
     container: 'body',
     classPrefix: 'ue-component',
+    contentRole: 'content',
     // CSS表，初始化时自动设置
     css: { },
     // 模板数据
@@ -355,7 +356,7 @@ var Widget = Base.extend({
 
     // 处理 content 为其它 widget 实例的情况
     if (content) {
-      container = self.role('content');
+      container = self.role(self.option('contentRole'));
       if (container.length === 0) {
         container = self.element;
       }
