@@ -323,6 +323,28 @@ var Widget = Base.extend({
   },
 
   /**
+   * 处理子组件，仅支持 widget 的子类
+   *
+   * @method handleChildren
+   */
+  handleChildren: function () {
+    var self = this,
+      container, i, n,
+      children = self.option('children');
+
+    if (children) {
+      container = self.role(self.option('contentRole'));
+      if (container.length === 0) {
+        container = self.element;
+      }
+
+      for (i = 0, n = children.length; i < n; i++) {
+        container.append(children[i].element);
+      }
+    }
+  },
+
+  /**
    * 解析内容，将 elemnt 插入到 container
    *
    * @method render
@@ -330,18 +352,8 @@ var Widget = Base.extend({
    */
   render: function () {
     var self = this,
-      html, container,
-      content = self.option('content'),
+      html,
       template = self.option('template');
-
-    if (content instanceof Widget) {
-      content = content.element;
-      // 清除
-      self.option('content', '');
-      self.option('data/content', '');
-    } else {
-      content = null;
-    }
 
     // 处理模板与 content 为 text|html 的情况
     if (typeof template === 'function') {
@@ -354,14 +366,7 @@ var Widget = Base.extend({
       self.element.html(html);
     }
 
-    // 处理 content 为其它 widget 实例的情况
-    if (content) {
-      container = self.role(self.option('contentRole'));
-      if (container.length === 0) {
-        container = self.element;
-      }
-      container.append(content);
-    }
+    self.handleChildren();
 
     if (!self.rendered) {
       // 插入到容器中
