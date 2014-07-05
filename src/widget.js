@@ -407,12 +407,17 @@ var Widget = Base.extend({
   },
 
   /**
-   * 显示
+   * 显示，或绑定显示事件回调
    *
    * @method show
+   * @param {Function} [callback] 事件回调函数
    * @return {Object} 当前实例
    */
-  show: function () {
+  show: function (callback) {
+    if (callback) {
+      return this.on('show', callback);
+    }
+
     if (!this.element) {
       return this;
     }
@@ -431,12 +436,17 @@ var Widget = Base.extend({
   },
 
   /**
-   * 隐藏
+   * 隐藏，或绑定隐藏事件回调
    *
    * @method hide
+   * @param {Function} [callback] 事件回调函数
    * @return {Object} 当前实例
    */
-  hide: function () {
+  hide: function (callback) {
+    if (callback) {
+      return this.on('hide', callback);
+    }
+
     if (!this.element) {
       return this;
     }
@@ -455,10 +465,15 @@ var Widget = Base.extend({
   },
 
   /**
-   * 销毁当前组件对象
+   * 销毁当前组件对象，或绑定销毁事件回调
+   * @param {Function} [callback] 事件回调函数
    * @method destroy
    */
-  destroy: function () {
+  destroy: function (callback) {
+    if (callback) {
+      return this.on('destroy', callback);
+    }
+
     /**
      * 通知销毁
      *
