@@ -9,12 +9,12 @@ define(function (require, exports, module) {
 'use strict';
 
 var $ = require('$'),
-  Base = require('base');
+    Base = require('base');
 
 var DELEGATE_REGEXP = /\{\{(.+?)\}\}/g,
-  DELEGATE_DELIMITER = /^(\S+)\s*(.*)$/,
-  DELEGATE_NS_PREFIX = '.delegate-widget-',
-  DATA_WIDGET_UNIQUEID = 'data-widget-uid';
+    DELEGATE_DELIMITER = /^(\S+)\s*(.*)$/,
+    DELEGATE_NS_PREFIX = '.delegate-widget-',
+    DATA_WIDGET_UNIQUEID = 'data-widget-uid';
 
 var cachedInstances = {};
 
@@ -329,8 +329,14 @@ var Widget = Base.extend({
    */
   handleChildren: function () {
     var self = this,
-      container, i, n,
-      children = self.option('children');
+        container, i, n,
+        children = self.option('children'),
+        child, uniqueId = self.uniqueId;
+
+    /* jshint validthis:true */
+    function replaceDummy () {
+      this['dummy' + uniqueId].replaceWith(this.element);
+    }
 
     if (children) {
       container = self.role(self.option('contentRole'));
@@ -339,7 +345,15 @@ var Widget = Base.extend({
       }
 
       for (i = 0, n = children.length; i < n; i++) {
-        container.append(children[i].element);
+        child = children[i];
+        if (child.rendered) {
+          container.append(child.element);
+        } else {
+          child['dummy' + uniqueId] =
+              $('<div/>', self.document).appendTo(container);
+
+          child.once('render', replaceDummy);
+        }
       }
     }
   },
