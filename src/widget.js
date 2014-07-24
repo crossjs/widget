@@ -218,7 +218,8 @@ var Widget = Base.extend({
      *
      * @property {Document} document
      */
-    this.document = this.element.prop('ownerDocument');
+    this.document = this.element.prop('ownerDocument') ||
+                    this.element[0];
 
     /**
      * `element` 所在的 `window` 对象
@@ -234,6 +235,7 @@ var Widget = Base.extend({
 
   /**
    * 事件代理，绑定在 element 上
+   * TODO: 实现解除绑定
    *
    * @method initDelegates
    * @param {Object|Function} [delegates] 代理事件列表

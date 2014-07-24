@@ -36,7 +36,7 @@ module.exports = function(grunt) {
           src: ['src/*.js'],
           instrumentedFiles: 'temp/',
           lcovReport: 'report/',
-          linesThresholdPct: 85
+          linesThresholdPct: 60
         }
       },
       all: ['test/*.html']
@@ -135,7 +135,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '.build/',
-          src: ['widget*.js, autorender*.js'],
+          src: ['widget*.js', 'autorender*.js'],
           dest: 'dist/'
         }]
       }
