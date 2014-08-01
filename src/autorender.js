@@ -41,59 +41,68 @@ function isDataAPIOff (element) {
  * @param callback 渲染后执行的回调
  */
 module.exports = function (root, callback) {
-  var modules = [];
-  var elements = [];
+  var modules = [],
+      elements = [];
 
   if (typeof root === 'function') {
     callback = root;
     root = null;
   }
 
-  root = $(root || document.body);
+  root || (root = document.body);
 
-  // 全局关闭
+  if (!(root instanceof $)) {
+    root = $(root);
+  }
+
+  // 判断全局关闭
   if (isDataAPIOff(root[0])) {
     return;
   }
 
   root.find('[' + DATA_WIDGET + ']').each(function (i, element) {
+    // 判断单个关闭
     if (!isDataAPIOff(element)) {
       modules.push(element.getAttribute(DATA_WIDGET).toLowerCase());
       elements.push(element);
     }
   });
 
-  if (modules.length) {
-    seajs.use(modules, function () {
-      var i, n = arguments.length,
-        element, options;
+  if (!modules.length) {
+    return;
+  }
 
-      for (i = 0; i < n; i++) {
-        element = elements[i];
+  seajs.use(modules, function () {
+    var i,
+        n = arguments.length,
+        element,
+        options;
 
-        // 已经渲染过
-        if (element.getAttribute(DATA_WIDGET_AUTO_RENDERED)) {
-          continue;
-        }
+    for (i = 0; i < n; i++) {
+      element = elements[i];
 
-        options = daParser(element);
-
-        // DATA_WIDGET_ROLE
-        // 是指将当前的 DOM 作为 role 的属性去实例化，
-        // 默认的 role 为 element
-        options[element.getAttribute(DATA_WIDGET_ROLE) || 'element'] = element;
-
-        // 调用自动渲染接口
-        new (arguments[i])(options);
-
-        // 标记已经渲染过
-        element.setAttribute(DATA_WIDGET_AUTO_RENDERED, 'true');
+      // 已经渲染过
+      if (element.getAttribute(DATA_WIDGET_AUTO_RENDERED)) {
+        continue;
       }
 
-      // 在所有自动渲染完成后，执行回调
-      callback && callback();
-    });
-  }
+      options = daParser(element);
+
+      // DATA_WIDGET_ROLE
+      // 是指将当前的 DOM 作为 role 的属性去实例化，
+      // 默认的 role 为 element
+      options[element.getAttribute(DATA_WIDGET_ROLE) || 'element'] = element;
+
+      // 调用自动渲染接口
+      new (arguments[i])(options);
+
+      // 标记已经渲染过
+      element.setAttribute(DATA_WIDGET_AUTO_RENDERED, 'true');
+    }
+
+    // 在所有自动渲染完成后，执行回调
+    callback && callback();
+  });
 };
 
 });

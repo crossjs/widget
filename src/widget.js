@@ -200,6 +200,7 @@ var Widget = Base.extend({
      */
     this.element = $(this.option('element'))
         .attr(DATA_WIDGET_UNIQUEID, this.uniqueId)
+        .data('widget', this)
         .addClass(this.option('classPrefix'))
         .css(this.option('css'));
 
@@ -512,6 +513,10 @@ var Widget = Base.extend({
     }
 
     Widget.superclass.destroy.apply(this);
+  },
+
+  getWidget: function (selector) {
+    return Widget.get(selector);
   }
 
 });
@@ -544,10 +549,14 @@ $(window).unload(function() {
  * @static
  */
 Widget.get = function (selector) {
-  var element = $(selector).eq(0), uid;
-  element.length && (uid = element.attr(DATA_WIDGET_UNIQUEID));
+  var uid;
+  selector = $(selector).eq(0);
+  selector.length &&
+      (uid = selector.attr(DATA_WIDGET_UNIQUEID));
   return cachedInstances[uid];
 };
+
+Widget.autoRender = require('./autorender');
 
 module.exports = Widget;
 

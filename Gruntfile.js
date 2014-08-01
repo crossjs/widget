@@ -135,7 +135,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '.build/',
-          src: ['widget*.js', 'autorender*.js'],
+          src: ['widget*.js'],
           dest: 'dist/'
         }]
       }

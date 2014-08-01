@@ -45,7 +45,7 @@
   },
   "family": "pandora",
   "spm": {
-    "output": [ "widget.js", "autorender.js" ],
+    "output": [ "widget.js" ],
     "alias": {
       "$": "$",
       "base": "pandora/base/1.0.0/base"
