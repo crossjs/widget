@@ -18,27 +18,6 @@
   <script>
     QUnit.config.autostart = false;
 
-    var query = location.search.substring(1).split('&');
-    var srcdir = 'src';
-
-    function resolve(file) {
-      if (contain(query, 'debug')) {
-        if (file.indexOf('-debug') === -1) {
-          file = file.replace(/\.(\w+)$/, '-debug.$1');
-        }
-      }
-      return seajs.resolve("../" + srcdir + "/" + file + '#');
-    }
-
-    function contain(arr, value) {
-      for (var i in arr) {
-        if (arr[i] == value) {
-          return true;
-        }
-      }
-      return false;
-    }
-
     seajs.config({
       'base': '../sea-modules/',
       'map': [
@@ -46,14 +25,20 @@
       ],
       'alias': {
         '$': 'jquery',
-        'base': 'pandora/base/1.0.0/base',
-        'autorender': resolve('autorender.js'),
-        'daparser': resolve('daparser.js'),
-        'widget': resolve('widget.js')
+        'base': 'pandora/base/1.0.0/base'
       }
     });
 
-    seajs.use(['../src/daparser'], function (daParser) {
+    // add a bridge for test fake ie6
+    define('daparserfake', ['../src/daparser'], function (require, exports, module) {
+      var JSON = window.JSON;
+      window.JSON = undefined;
+      module.exports = require('../src/daparser');
+      // 设置回默认，因为qunit依赖
+      window.JSON = JSON;
+    });
+
+    seajs.use(['daparserfake'], function (daParser) {
 
       'use strict';
 
