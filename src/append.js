@@ -2,6 +2,8 @@ define(function(require, exports, module) {
 
   'use strict';
 
+  var $ = require('$');
+
   /**
    * 处理子组件，仅支持 widget 的子类
    */
