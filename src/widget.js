@@ -129,13 +129,17 @@ define(function(require, exports, module) {
        * 容器，与 `insert` 配合使用，设置为 `null` 则不执行插入
        * 
        * @attribute container
+       * @type {String}
+       * @default body
        */
       container: 'body',
 
       /**
-       * 主元素 className
+       * 主元素的className
        * 
-       * @attribute classPrefix 
+       * @attribute classPrefix
+       * @type {String}
+       * @default ue-component 
        */
       classPrefix: 'ue-component',
 
@@ -143,6 +147,8 @@ define(function(require, exports, module) {
        * content 区域的 data-role 值，与 `children` 结合使用
        * 
        * @attribute contentRole 
+       * @type {String}
+       * @default content
        */
       contentRole: 'content',
       
@@ -150,20 +156,50 @@ define(function(require, exports, module) {
        * 主元素 CSS 样式
        * 
        * @attribute css 
+       * @type {Object}
+       * @default {}
        */
       css: {},
       
       /**
+       * 组件的模板
+       * @attribute template
+       * @type {Function}
+       * @default null
+       */
+      template : null,
+
+      /**
+       * template 执行时的options参数
+       * @attribute templateOptions
+       * @type {Object}
+       * @default null
+       */
+      templateOptions : null,
+      /**
        * 模板数据，与 `template` 结合使用
        * 
        * @attribute data 
+       * @type {Object}
+       * @default {}
        */
       data: {},
+
+      /**
+       * 配置事件代理
+       * 
+       * @attribute delegates 
+       * @type {Object}
+       * @default null
+       */
+      delegates : null,
       
       /**
        * widget 主元素
        * 
        * @attribute element 
+       * @type {String}
+       * @default <div></div>
        */
       element: '<div></div>',
       
@@ -171,6 +207,8 @@ define(function(require, exports, module) {
        * 将主元素插入到 DOM
        * 
        * @attribute insert 
+       * @type {Function}
+       * @default 将主元素插入到 container 中
        */
       insert: function() {
         this.container.length &&
