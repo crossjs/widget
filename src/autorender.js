@@ -61,11 +61,13 @@ define(function(require, exports, module) {
     }
 
     root.find('[' + DATA_WIDGET + ']').each(function(i, element) {
-      // 判断单个关闭
-      if (!isDataAPIOff(element)) {
-        modules.push(element.getAttribute(DATA_WIDGET).toLowerCase());
-        elements.push(element);
-      }
+        if (!!seajs.data.alias[element.getAttribute(DATA_WIDGET).toLowerCase()]) {
+            // 判断单个关闭
+            if (!isDataAPIOff(element)) {
+                modules.push(element.getAttribute(DATA_WIDGET).toLowerCase());
+                elements.push(element);
+            }
+        }
     });
 
     if (!modules.length) {
