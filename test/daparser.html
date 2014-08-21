@@ -12,56 +12,27 @@
   <h2 id="qunit-userAgent"></h2>
   <ol id="qunit-tests"></ol>
   <div id="qunit-fixture">test markup</div>
-  <script src="../vendor/jquery/jquery.js"></script>
   <script src="../vendor/seajs/sea.js"></script>
   <script src="../vendor/qunit/qunit.js"></script>
   <script>
     QUnit.config.autostart = false;
 
-    var query = location.search.substring(1).split('&');
-    var srcdir = 'src';
-
-    function resolve(file) {
-      if (contain(query, 'debug')) {
-        if (file.indexOf('-debug') === -1) {
-          file = file.replace(/\.(\w+)$/, '-debug.$1');
-        }
-      }
-      return seajs.resolve("../" + srcdir + "/" + file + '#');
-    }
-
-    function contain(arr, value) {
-      for (var i in arr) {
-        if (arr[i] == value) {
-          return true;
-        }
-      }
-      return false;
-    }
-
     seajs.config({
       'base': '../sea-modules/',
-      'map': [
-        ['/sea-modules/jquery', '/vendor/jquery/jquery']
-      ],
       'alias': {
-        '$': 'jquery',
-        'base': 'pandora/base/1.0.0/base',
-        'autorender': resolve('autorender.js'),
-        'daparser': resolve('daparser.js'),
-        'widget': resolve('widget.js')
+        '$': 'jquery/jquery/1.11.1/jquery',
+        'base': 'pandora/base/1.0.0/base'
       }
     });
 
-    seajs.use(['../src/daparser'], function (daParser) {
+    seajs.use(['$', '../src/daparser'], function ($, daParser) {
 
       'use strict';
 
-      var $fixture = $('#qunit-fixture');
       QUnit.start();
 
       test('single data-widget-xx', function() {
-        var div = $('<div data-widget-key="test"></div>').appendTo($fixture);
+        var div = $('<div data-widget-key="test"></div>').appendTo('#qunit-fixture');
         var dataset = daParser(div[0]);
 
         equal(dataset.key, 'test', 'ok');
@@ -69,7 +40,7 @@
       });
 
       test('multi data-widget-xx', function() {
-        var div = $('<div data-widget-key="test" data-widget-key1="test1"></div>').appendTo($fixture);
+        var div = $('<div data-widget-key="test" data-widget-key1="test1"></div>').appendTo('#qunit-fixture');
         var dataset = daParser(div[0]);
 
         equal(dataset.key, 'test', 'ok');
@@ -78,7 +49,7 @@
       });
 
       test('convert dash-name to camelCasedName', function() {
-        var div = $('<div data-widget-x-y-123a-_B="val" data-widget-x-y="val" data-widget-AbcD-x="val"></div>').appendTo($fixture);
+        var div = $('<div data-widget-x-y-123a-_B="val" data-widget-x-y="val" data-widget-AbcD-x="val"></div>').appendTo('#qunit-fixture');
         var dataset = daParser(div[0]);
 
         //equal(dataset['xY-123a-_b'], 'val', '');
@@ -88,14 +59,14 @@
       });
 
       test('table element', function() {
-        var table = $('<table><tr><td data-widget-x="1"></td></tr></table>').appendTo($fixture)
+        var table = $('<table><tr><td data-widget-x="1"></td></tr></table>').appendTo('#qunit-fixture')
         var dataset = daParser(table.find('td')[0]);
 
         equal(dataset['x'], '1');
       })
 
       test('object', function() {
-        var div = $('<div data-widget-object="{\'a\':\'a\', \'b\':1}"></div>').appendTo($fixture)
+        var div = $('<div data-widget-object="{\'a\':\'a\', \'b\':1}"></div>').appendTo('#qunit-fixture')
         var dataset = daParser(div[0])
 
         deepEqual(dataset['object'], {
