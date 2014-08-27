@@ -61,8 +61,8 @@ define(function(require, exports, module) {
    *       // 执行 `setup` 方法前执行
    *       // 此处返回 `false` 将阻止 `setup` 方法执行
    *     },
-   *     // AOP `before:setup`
-   *     'before:setup': function (e) {
+   *     // AOP `after:setup`
+   *     'after:setup': function (e) {
    *       // 执行 `setup` 方法后执行
    *       // 如果 `setup` 方法被阻止，就不会执行到这里
    *     }
