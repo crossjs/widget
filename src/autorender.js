@@ -1,5 +1,11 @@
 define(function(require, exports, module) {
 
+  /**
+   * 组件基类
+   *
+   * @module Widget
+   */
+
   'use strict';
 
   /**
@@ -57,21 +63,29 @@ define(function(require, exports, module) {
 
     // 判断全局关闭
     if (isDataAPIOff(root[0])) {
+      // 全局关闭，执行回调
+      callback && callback(-1);
       return;
     }
 
     root.find('[' + DATA_WIDGET + ']').each(function(i, element) {
-      var module = element.getAttribute(DATA_WIDGET).toLowerCase();
-      if (!!seajs.data.alias[module]) {
-        // 判断单个关闭
-        if (!isDataAPIOff(element)) {
-          modules.push(module);
-          elements.push(element);
+      var module;
+      // 已经渲染过
+      if (!element.getAttribute(DATA_WIDGET_AUTO_RENDERED)) {
+        module = element.getAttribute(DATA_WIDGET).toLowerCase();
+        if (seajs.data.alias[module]) {
+          // 判断单个关闭
+          if (!isDataAPIOff(element)) {
+            modules.push(module);
+            elements.push(element);
+          }
         }
       }
     });
 
     if (!modules.length) {
+      // 没有模块，执行回调
+      callback && callback(0);
       return;
     }
 
@@ -83,11 +97,6 @@ define(function(require, exports, module) {
 
       for (i = 0; i < n; i++) {
         element = elements[i];
-
-        // 已经渲染过
-        if (element.getAttribute(DATA_WIDGET_AUTO_RENDERED)) {
-          continue;
-        }
 
         options = daParser(element);
 
@@ -104,7 +113,7 @@ define(function(require, exports, module) {
       }
 
       // 在所有自动渲染完成后，执行回调
-      callback && callback();
+      callback && callback(1);
     });
   };
 

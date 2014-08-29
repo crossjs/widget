@@ -127,7 +127,7 @@ define(function(require, exports, module) {
 
       /**
        * 容器，与 `insert` 配合使用，设置为 `null` 则不执行插入
-       * 
+       *
        * @attribute container
        * @type {String}
        * @default body
@@ -136,31 +136,31 @@ define(function(require, exports, module) {
 
       /**
        * 主元素的className
-       * 
+       *
        * @attribute classPrefix
        * @type {String}
-       * @default ue-component 
+       * @default ue-component
        */
       classPrefix: 'ue-component',
 
       /**
        * content 区域的 data-role 值，与 `children` 结合使用
-       * 
-       * @attribute contentRole 
+       *
+       * @attribute contentRole
        * @type {String}
        * @default content
        */
       contentRole: 'content',
-      
+
       /**
        * 主元素 CSS 样式
-       * 
-       * @attribute css 
+       *
+       * @attribute css
        * @type {Object}
        * @default {}
        */
       css: {},
-      
+
       /**
        * 组件的模板
        * @attribute template
@@ -178,8 +178,8 @@ define(function(require, exports, module) {
       templateOptions : null,
       /**
        * 模板数据，与 `template` 结合使用
-       * 
-       * @attribute data 
+       *
+       * @attribute data
        * @type {Object}
        * @default {}
        */
@@ -187,26 +187,26 @@ define(function(require, exports, module) {
 
       /**
        * 配置事件代理
-       * 
-       * @attribute delegates 
+       *
+       * @attribute delegates
        * @type {Object}
        * @default null
        */
       delegates : null,
-      
+
       /**
        * widget 主元素
-       * 
-       * @attribute element 
+       *
+       * @attribute element
        * @type {String}
        * @default <div></div>
        */
       element: '<div></div>',
-      
+
       /**
        * 将主元素插入到 DOM
-       * 
-       * @attribute insert 
+       *
+       * @attribute insert
        * @type {Function}
        * @default 将主元素插入到 container 中
        */
@@ -421,16 +421,16 @@ define(function(require, exports, module) {
         self.element.html(html);
       }
 
+      if (!self.rendered) {
+        self.initDnV();
+        self.initTrigger();
+      }
+
       append(self, self.option('children'));
 
       if (!self.rendered) {
         // 插入到容器中
         self.option('insert').call(self);
-
-        self.initDnV();
-
-        self.initTrigger();
-
         self.rendered = true;
       }
 

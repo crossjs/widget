@@ -15,6 +15,13 @@
   <script src="../vendor/seajs/sea.js"></script>
   <script src="../vendor/qunit/qunit.js"></script>
   <script>
+    /*global QUnit */
+    /*global test */
+    /*global asyncTest */
+    /*global ok */
+    /*global equal */
+    /*global deepEqual */
+    /*global notEqual */
     QUnit.config.autostart = false;
 
     seajs.config({
@@ -35,10 +42,11 @@
         notEqual( new Widget(), new Widget(), '' );
       });
 
-      test('Widget.get', function() {
+      test('Widget.get/widget.getWidget', function() {
         var WidgetA = Widget.extend();
         var widgetA = new WidgetA();
         equal( Widget.get(widgetA.element), widgetA, '' );
+        equal( widgetA.getWidget(widgetA.element), widgetA, '' );
       });
 
       test('constructor', function() {
@@ -159,11 +167,21 @@
         });
         var widgetA = new WidgetA({
         });
+        var i = 0;
+        widgetA.show(function() {
+          i++;
+        });
+        widgetA.hide(function() {
+          i++;
+        });
         widgetA.render();
+        equal( i, 0, '');
         ok( widgetA.is(':visible'), '' );
         widgetA.hide();
+        equal( i, 1, '');
         ok( widgetA.is(':hidden'), '' );
         widgetA.show();
+        equal( i, 2, '');
         ok( widgetA.is(':visible'), '' );
         // for next tests
         widgetA.destroy();
@@ -227,13 +245,29 @@
         widgetA.destroy();
       });
 
-      test('destroy', function() {
+      test('on(destroy)', function() {
         var WidgetA = Widget.extend({
         });
         var widgetA = new WidgetA({
           classPrefix: 'ue-test'
         });
         widgetA.on('destroy', function () {
+          ok( true, 'before destroy' );
+        });
+        widgetA.render();
+        widgetA.destroy();
+        widgetA.destroy();
+        equal( widgetA.element, undefined, '' );
+        equal( $('.ue-test').length, 0, '' );
+      });
+
+      test('destroy(fn)', function() {
+        var WidgetA = Widget.extend({
+        });
+        var widgetA = new WidgetA({
+          classPrefix: 'ue-test'
+        });
+        widgetA.destroy(function () {
           ok( true, 'before destroy' );
         });
         widgetA.render();
@@ -289,6 +323,18 @@
         widgetA.element.click();
         widgetA.$('button').click();
         widgetA.destroy();
+      });
+
+      test('unload', function() {
+        var WidgetA = Widget.extend({
+          setup: function () {
+            this.render();
+          }
+        });
+        var widgetA = new WidgetA();
+        $(window).triggerHandler('unload');
+
+        equal( typeof widgetA.element, 'undefined', '' );
       });
 
     });

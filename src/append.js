@@ -1,39 +1,46 @@
 define(function(require, exports, module) {
 
-  'use strict';
-
-  var $ = require('$');
-
   /**
-   * 处理子组件，仅支持 widget 的子类
+   * 处理子组件（widget 的子类）
+   *
+   * @module Widget
    */
 
-  module.exports = function(parent, children) {
+  'use strict';
+
+  module.exports = function(parentWidget, children) {
     var roleContent,
       i,
       n,
       child,
-      uniqueId = parent.uniqueId;
+      uniqueId = parentWidget.uniqueId;
 
-    /*jshint validthis:true */
+    function createDummy() {
+      var div = parentWidget.document.createElement('div');
+      roleContent[0].appendChild(div);
+      return div;
+    }
+
     function replaceDummy() {
-      this['dummy' + uniqueId].replaceWith(this.element);
+      /*jshint validthis:true */
+      var dummy = this['dummy' + uniqueId];
+      dummy.parentNode.replaceChild(this.element[0], dummy);
     }
 
     if (children) {
-      roleContent = parent.role(parent.option('contentRole'));
+      roleContent = parentWidget.role(parentWidget.option('contentRole'));
       if (roleContent.length === 0) {
-        roleContent = parent.element;
+        roleContent = parentWidget.element;
       }
 
       for (i = 0, n = children.length; i < n; i++) {
         child = children[i];
+        // 子组件已加载，直接插入
         if (child.rendered) {
           roleContent.append(child.element);
         } else {
           // 异步加载子 widget，添加占位符，保证顺序
-          child['dummy' + uniqueId] =
-            $('<div/>', parent.document).appendTo(roleContent);
+          child['dummy' + uniqueId] = createDummy();
 
           child.once('render', replaceDummy);
         }

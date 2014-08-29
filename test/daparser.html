@@ -15,6 +15,13 @@
   <script src="../vendor/seajs/sea.js"></script>
   <script src="../vendor/qunit/qunit.js"></script>
   <script>
+    /*global QUnit */
+    /*global test */
+    /*global asyncTest */
+    /*global ok */
+    /*global equal */
+    /*global deepEqual */
+    /*global notEqual */
     QUnit.config.autostart = false;
 
     seajs.config({
@@ -40,12 +47,13 @@
       });
 
       test('multi data-widget-xx', function() {
-        var div = $('<div data-widget-key="test" data-widget-key1="test1"></div>').appendTo('#qunit-fixture');
+        var div = $('<div data-widget-key="test" data-widget-key1="test1" data-widget-key2="true" data-widget-key3="false"></div>').appendTo('#qunit-fixture');
         var dataset = daParser(div[0]);
 
         equal(dataset.key, 'test', 'ok');
         equal(dataset['key1'], 'test1', 'ok');
-
+        equal(dataset.key2, true, 'ok');
+        equal(dataset.key3, false, 'ok');
       });
 
       test('convert dash-name to camelCasedName', function() {
@@ -66,13 +74,15 @@
       })
 
       test('object', function() {
-        var div = $('<div data-widget-object="{\'a\':\'a\', \'b\':1}"></div>').appendTo('#qunit-fixture')
-        var dataset = daParser(div[0])
+        var div = $('<div data-widget-object="{\'a\':\'a\', \'b\':1}"></div>').appendTo('#qunit-fixture');
+        var dataset = daParser(div[0]);
+        var dataset2 = daParser(div[0], true);
 
         deepEqual(dataset['object'], {
-          "a":"a",
-          "b": 1
+          'a':'a',
+          'b': 1
         });
+        equal(dataset2['object'], '{\'a\':\'a\', \'b\':1}');
       })
 
     });

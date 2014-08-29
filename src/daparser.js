@@ -1,16 +1,16 @@
 define(function(require, exports, module) {
 
-  'use strict';
-
   /**
-   * DAParser
+   * data api 解析器，
+   * 提供对单个 element 的解析，
+   * 可用来初始化页面中的所有 Widget 组件。
    *
-   * data api 解析器，提供对单个 element 的解析，可用来初始化页面中的所有 Widget 组件。
-   *
-   * @module DAParser
+   * @module Widget
    * @class DAParser
    * @static
    */
+
+  'use strict';
 
   var $ = require('$');
 

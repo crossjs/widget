@@ -15,6 +15,13 @@
   <script src="../vendor/seajs/sea.js"></script>
   <script src="../vendor/qunit/qunit.js"></script>
   <script>
+    /*global QUnit */
+    /*global test */
+    /*global asyncTest */
+    /*global ok */
+    /*global equal */
+    /*global deepEqual */
+    /*global notEqual */
     QUnit.config.autostart = false;
 
     seajs.config({
@@ -31,7 +38,7 @@
 
       QUnit.start();
 
-      test('append', function() {
+      test('append sync', function() {
         var widgetA = new Widget({
           classPrefix: 'ue-test-a'
         }), widgetB = new Widget({
@@ -45,7 +52,7 @@
         widgetB.destroy();
       });
 
-      test('append', function() {
+      test('append async', function() {
         var widgetA = new Widget({
           classPrefix: 'ue-test-a'
         }), widgetB = new Widget({
