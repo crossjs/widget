@@ -1,22 +1,17 @@
 define(function(require, exports, module) {
 
   /**
-   * 组件基类
+   * 自动渲染 widget
+   * 根据 data-widget 属性，自动渲染所有开启了 data-api 的 widget 组件
    *
    * @module Widget
+   * @class AutoRender
+   * @static
+   * @param root 渲染的 dom 范围，默认是 body
+   * @param callback 渲染后执行的回调
    */
 
   'use strict';
-
-  /**
-   * AutoRender
-   * --------
-   * 自动渲染 widget
-   *
-   * @module AutoRender
-   * @class AutoRender
-   * @static
-   */
 
   var $ = require('$');
 
@@ -28,24 +23,17 @@ define(function(require, exports, module) {
     DATA_WIDGET_ROLE = 'data-widget-role';
 
   /**
-   * 是否没开启 data-api
+   * 检查元素是否关闭 data-api
    *
    * @method isDataAPIOff
+   * @private
    * @param element
-   * @returns {boolean}
+   * @return {boolean}
    */
   function isDataAPIOff(element) {
     return element.getAttribute(DATA_WIDGET_API) === 'off';
   }
 
-  /**
-   * 根据 data-widget 属性，自动渲染所有开启了 data-api 的 widget 组件
-   *
-   * @method renderAll
-   * @static
-   * @param root 渲染的 dom 范围，默认是 body
-   * @param callback 渲染后执行的回调
-   */
   module.exports = function(root, callback) {
     var modules = [],
       elements = [];

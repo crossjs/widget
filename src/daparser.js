@@ -3,11 +3,14 @@ define(function(require, exports, module) {
   /**
    * data api 解析器，
    * 提供对单个 element 的解析，
+   * 得到某个 DOM 元素的 dataset，
    * 可用来初始化页面中的所有 Widget 组件。
    *
    * @module Widget
    * @class DAParser
    * @static
+   * @param element
+   * @param raw
    */
 
   'use strict';
@@ -112,14 +115,6 @@ define(function(require, exports, module) {
     return da;
   }
 
-  /**
-   * 得到某个 DOM 元素的 dataset
-   *
-   * @method parseElement
-   * @param element
-   * @param raw
-   * @returns {{}}
-   */
   module.exports = function(element, raw) {
     var da = {};
 

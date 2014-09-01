@@ -261,7 +261,7 @@ define(function(require, exports, module) {
       /**
        * 容器/插入参考点
        *
-       * @property {object} container（容器）
+       * @property {object} container
        */
       this.container = $(this.option('container'));
 
@@ -408,7 +408,8 @@ define(function(require, exports, module) {
     render: function() {
       var self = this,
         html,
-        template = self.option('template');
+        template = self.option('template'),
+        children = self.option('children');
 
       // 处理模板与 content 为 text|html 的情况
       if (typeof template === 'function') {
@@ -421,16 +422,18 @@ define(function(require, exports, module) {
         self.element.html(html);
       }
 
-      if (!self.rendered) {
-        self.initDnV();
-        self.initTrigger();
+      if (children) {
+        if (!self.rendered) {
+          self.initDnV();
+        }
+        append(self, children);
       }
-
-      append(self, self.option('children'));
 
       if (!self.rendered) {
         // 插入到容器中
         self.option('insert').call(self);
+        self.initDnV();
+        self.initTrigger();
         self.rendered = true;
       }
 
@@ -537,13 +540,13 @@ define(function(require, exports, module) {
        */
       this.fire('destroy');
 
-      // 移除 element 事件代理
       if (this.element) {
+        // 移除 element 事件代理
         this.element
-        // 移除 document 事件代理
-        .add(this.document)
-        // 移除 viewport 事件代理
-        .add(this.viewport)
+          // 移除 document 事件代理
+          .add(this.document)
+          // 移除 viewport 事件代理
+          .add(this.viewport)
           .off(this.delegateNS);
 
         // 从DOM中移除element
@@ -554,9 +557,10 @@ define(function(require, exports, module) {
     },
 
     /**
-     * 通过元素获取对应的 widget 实例
-     * @param {mixed} selector 元素选择符
+     * 通过元素获取对应的 widget 实例，同 Widget.get
+     *
      * @method getWidget
+     * @param {mixed} selector 元素选择符
      */
     getWidget: function(selector) {
       return Widget.get(selector);
@@ -599,6 +603,12 @@ define(function(require, exports, module) {
     return cachedInstances[uid];
   };
 
+  /**
+   * 自动渲染 widget
+   *
+   * @method autoRender
+   * @static
+   */
   Widget.autoRender = require('./autorender');
 
   module.exports = Widget;
