@@ -44,6 +44,7 @@ define(function(require, exports, module) {
 
           child.once('render', replaceDummy);
         }
+        child.parentWidget = parentWidget;
       }
     }
   };
