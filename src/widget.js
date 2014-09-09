@@ -272,9 +272,7 @@ define(function(require, exports, module) {
        */
       this.element = $(this.option('element'))
         .attr(DATA_WIDGET_UNIQUEID, this.uniqueId)
-        .data('widget', this)
-        .addClass(this.option('classPrefix'))
-        .css(this.option('css'));
+        .data('widget', this);
 
       return this;
     },
@@ -410,6 +408,9 @@ define(function(require, exports, module) {
         html,
         template = self.option('template'),
         children = self.option('children');
+
+      self.element.addClass(self.option('classPrefix'))
+        .css(self.option('css'));
 
       // 处理模板与 content 为 text|html 的情况
       if (typeof template === 'function') {
