@@ -153,13 +153,22 @@ define(function(require, exports, module) {
       contentRole: 'content',
 
       /**
-       * 主元素 CSS 样式
+       * 需要设置到主元素的 CSS 样式
        *
        * @attribute css
        * @type {Object}
        * @default {}
        */
       css: {},
+
+      /**
+       * 需要设置到主元素的属性表
+       *
+       * @attribute attr
+       * @type {Object}
+       * @default {}
+       */
+      attr: {},
 
       /**
        * 组件的模板
@@ -176,6 +185,7 @@ define(function(require, exports, module) {
        * @default null
        */
       templateOptions : null,
+
       /**
        * 模板数据，与 `template` 结合使用
        *
@@ -225,6 +235,26 @@ define(function(require, exports, module) {
      */
     $: function(selector) {
       return selector ? this.element.find(selector) : this.element;
+    },
+
+    /**
+     * 等同于 instace.element.css
+     *
+     * @method css
+     * @return {mixed} element 或 指定的 css 属性值
+     */
+    css: function() {
+      return this.element.css.apply(this.element, arguments);
+    },
+
+    /**
+     * 等同于 instace.element.attr
+     *
+     * @method attr
+     * @return {mixed} element 或 指定的 attr 属性值
+     */
+    attr: function() {
+      return this.element.attr.apply(this.element, arguments);
     },
 
     /**
@@ -409,8 +439,10 @@ define(function(require, exports, module) {
         template = self.option('template'),
         children = self.option('children');
 
-      self.element.addClass(self.option('classPrefix'))
-        .css(self.option('css'));
+      self.element
+        .addClass(self.option('classPrefix'))
+        .css(self.option('css') || {})
+        .attr(self.option('attr') || {});
 
       // 处理模板与 content 为 text|html 的情况
       if (typeof template === 'function') {
