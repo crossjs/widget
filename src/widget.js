@@ -428,6 +428,23 @@ define(function(require, exports, module) {
     setup: function() {},
 
     /**
+     * 自动执行的设置函数，预留用于子类覆盖
+     *
+     * @method initChildren
+     * @private
+     */
+    initChildren: function(children) {
+      children || (children = this.option('children'));
+
+      if (children) {
+        if (!this.rendered) {
+          this.initDnV();
+        }
+        append(this, children);
+      }
+    },
+
+    /**
      * 解析内容，将 elemnt 插入到 container
      *
      * @method render
@@ -436,8 +453,7 @@ define(function(require, exports, module) {
     render: function() {
       var self = this,
         html,
-        template = self.option('template'),
-        children = self.option('children');
+        template = self.option('template');
 
       self.element
         .addClass(self.option('classPrefix'))
@@ -455,12 +471,7 @@ define(function(require, exports, module) {
         self.element.html(html);
       }
 
-      if (children) {
-        if (!self.rendered) {
-          self.initDnV();
-        }
-        append(self, children);
-      }
+      self.initChildren();
 
       if (!self.rendered) {
         // 插入到容器中

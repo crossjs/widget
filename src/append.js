@@ -27,11 +27,16 @@ define(function(require, exports, module) {
       dummy.parentNode.replaceChild(this.element[0], dummy);
     }
 
+    function eventBubbling(e) {
+      parentWidget.fire.apply(parentWidget, arguments);
+    }
+
     if (children) {
 
       // 绑定销毁事件
       parentWidget.on('destroy', function(e) {
         var n;
+        // 仅当 destroy 事件来自父时
         if (e.target === this) {
           n = children.length;
           while (n--) {
@@ -48,6 +53,10 @@ define(function(require, exports, module) {
 
       for (i = 0, n = children.length; i < n; i++) {
         child = children[i];
+
+        // 自动冒泡事件
+        child.on('all', eventBubbling);
+
         // 子组件已加载，直接插入
         if (child.rendered) {
           roleContent.append(child.element);
