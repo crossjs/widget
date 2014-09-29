@@ -28,7 +28,17 @@ define(function(require, exports, module) {
     }
 
     if (children) {
+
+      // 绑定销毁事件
+      parentWidget.on('destroy', function() {
+        var n = children.length;
+        while (n--) {
+          children[n].destroy();
+        }
+      });
+
       roleContent = parentWidget.role(parentWidget.option('contentRole'));
+
       if (roleContent.length === 0) {
         roleContent = parentWidget.element;
       }
