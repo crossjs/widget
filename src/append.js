@@ -30,10 +30,13 @@ define(function(require, exports, module) {
     if (children) {
 
       // 绑定销毁事件
-      parentWidget.on('destroy', function() {
-        var n = children.length;
-        while (n--) {
-          children[n].destroy();
+      parentWidget.on('destroy', function(e) {
+        var n;
+        if (e.target === this) {
+          n = children.length;
+          while (n--) {
+            children[n].destroy();
+          }
         }
       });
 
