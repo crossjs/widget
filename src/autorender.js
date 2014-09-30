@@ -77,6 +77,11 @@ define(function(require, exports, module) {
       return;
     }
 
+    //统计
+    if(window.messageBus){
+      messageBus.fire('statistics', modules);
+    }
+
     seajs.use(modules, function() {
       var i,
         n = arguments.length,
