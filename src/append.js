@@ -28,7 +28,7 @@ define(function(require, exports, module) {
     }
 
     function eventBubbling(e) {
-      parentWidget.fire.apply(parentWidget, arguments);
+      return parentWidget.fire.apply(parentWidget, arguments);
     }
 
     if (children) {
