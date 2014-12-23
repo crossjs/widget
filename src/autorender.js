@@ -18,6 +18,7 @@ define(function(require, exports, module) {
   var daParser = require('./daparser');
 
   var DATA_WIDGET = 'data-widget',
+    DATA_CONFIG = 'data-config',
     DATA_WIDGET_API = 'data-widget-api',
     DATA_WIDGET_AUTO_RENDERED = 'data-widget-auto-rendered',
     DATA_WIDGET_ROLE = 'data-widget-role';
@@ -79,7 +80,7 @@ define(function(require, exports, module) {
 
     //统计
     if(window.messageBus){
-      messageBus.fire('useModule', modules);
+      window.messageBus.fire('useModule', modules);
     }
 
     seajs.use(modules, function() {
@@ -98,8 +99,19 @@ define(function(require, exports, module) {
         // 默认的 role 为 element
         options[element.getAttribute(DATA_WIDGET_ROLE) || 'element'] = element;
 
+        // 临时补丁，解决配置信息多的情况
+        var iframe = window.frames[0],
+        CMS_WIDGET_CONFIG = iframe ? iframe.CMS_WIDGET_CONFIG : window.CMS_WIDGET_CONFIG;
+
+        if (CMS_WIDGET_CONFIG && CMS_WIDGET_CONFIG[modules[i]]) {
+          var dataConfig = element.getAttribute('data-config');
+          if (dataConfig) {
+            $.extend(options, CMS_WIDGET_CONFIG[modules[i]][dataConfig]);
+          }
+        }
+
         // 调用自动渲染接口
-        new(arguments[i])(options);
+        new arguments[i](options);
 
         // 标记已经渲染过
         element.setAttribute(DATA_WIDGET_AUTO_RENDERED, 'true');
