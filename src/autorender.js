@@ -100,9 +100,11 @@ define(function(require, exports, module) {
         options[element.getAttribute(DATA_WIDGET_ROLE) || 'element'] = element;
 
         // 临时补丁，解决配置信息多的情况
-        var iframe = window.frames[0], CMS_WIDGET_CONFIG = window.CMS_WIDGET_CONFIG;
-        if (iframe && iframe.frameElement.className === 'design-iframe') {
-          CMS_WIDGET_CONFIG = iframe.CMS_WIDGET_CONFIG;
+        var iframe = document.getElementsByClassName('design-iframe'),
+          CMS_WIDGET_CONFIG = window.CMS_WIDGET_CONFIG;
+
+        if (iframe && iframe[0]) {
+          CMS_WIDGET_CONFIG = iframe[0].contentWindow.CMS_WIDGET_CONFIG;
         }
         if (CMS_WIDGET_CONFIG && CMS_WIDGET_CONFIG[modules[i]]) {
           var dataConfig = element.getAttribute('data-config');
