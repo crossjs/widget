@@ -100,7 +100,7 @@ define(function(require, exports, module) {
         options[element.getAttribute(DATA_WIDGET_ROLE) || 'element'] = element;
 
         // 临时补丁，解决配置信息多的情况
-        var iframe = document.getElementsByClassName('design-iframe'),
+        var iframe = $('.design-iframe')[0],
           CMS_WIDGET_CONFIG = window.CMS_WIDGET_CONFIG;
 
         if (iframe && iframe[0]) {
