@@ -5,3 +5,5 @@ report
 dist
 doc
 .idea
+_site
+spm_modules

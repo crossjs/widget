@@ -1,4 +1,4 @@
-define(function(require, exports, module) {
+
 
   /**
    * 组件基类
@@ -8,10 +8,10 @@ define(function(require, exports, module) {
 
   'use strict';
 
-  var $ = require('$'),
-    Base = require('base');
+  var $ = require('jquery'),
+    Base = require('pandora-base');
 
-  var append = require('./append');
+  var append = require('./lib/append');
 
   var DELEGATE_REGEXP = /\{\{(.+?)\}\}/g,
     DELEGATE_DELIMITER = /^(\S+)\s*(.*)$/,
@@ -653,8 +653,7 @@ define(function(require, exports, module) {
    * @method autoRender
    * @static
    */
-  Widget.autoRender = require('./autorender');
+  Widget.autoRender = require('./lib/autorender');
 
   module.exports = Widget;
 
-});
