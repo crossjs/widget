@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/lib/autorender.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">src/lib/</a> autorender.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">17.02% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>8/47</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">2.63% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>1/38</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">15.22% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>7/46</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+&nbsp;
+  /**
+   * 自动渲染 widget
+   * 根据 data-widget 属性，自动渲染所有开启了 data-api 的 widget 组件
+   *
+   * @module Widget
+   * @class AutoRender
+   * @static
+   * @param root 渲染的 dom 范围，默认是 body
+   * @param callback 渲染后执行的回调
+   */
+&nbsp;
+  'use strict';
+&nbsp;
+  var $ = require('jquery');
+&nbsp;
+  var daParser = require('./daparser');
+&nbsp;
+  var DATA_WIDGET = 'data-widget',
+    DATA_CONFIG = 'data-config',
+    DATA_WIDGET_API = 'data-widget-api',
+    DATA_WIDGET_AUTO_RENDERED = 'data-widget-auto-rendered',
+    DATA_WIDGET_ROLE = 'data-widget-role';
+&nbsp;
+  /**
+   * 检查元素是否关闭 data-api
+   *
+   * @method isDataAPIOff
+   * @private
+   * @param element
+   * @return {boolean}
+   */
+<span class="fstat-no" title="function not covered" >  function isDataAPIOff(element) {</span>
+<span class="cstat-no" title="statement not covered" >    r</span>eturn element.getAttribute(DATA_WIDGET_API) === 'off';
+  }
+&nbsp;
+  module.exports = function(root, callback) {
+    var modules = [],
+      elements = [];
+&nbsp;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (!window.seajs) return;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (typeof root === 'function') {</span>
+<span class="cstat-no" title="statement not covered" >      c</span>allback = root;
+<span class="cstat-no" title="statement not covered" >      r</span>oot = null;
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    r</span>oot || (root = document.body);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!(root instanceof $)) {</span>
+<span class="cstat-no" title="statement not covered" >      r</span>oot = $(root);
+    }
+&nbsp;
+    // 判断全局关闭
+<span class="cstat-no" title="statement not covered" >    if (isDataAPIOff(root[0])) {</span>
+      // 全局关闭，执行回调
+<span class="cstat-no" title="statement not covered" >      c</span>allback &amp;&amp; callback(-1);
+<span class="cstat-no" title="statement not covered" >      r</span>eturn;
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    r</span>oot.find('[' + DATA_WIDGET + ']').each(<span class="fstat-no" title="function not covered" >function(i, element) {</span>
+<span class="cstat-no" title="statement not covered" >      v</span>ar module;
+      // 已经渲染过
+<span class="cstat-no" title="statement not covered" >      if (!element.getAttribute(DATA_WIDGET_AUTO_RENDERED)) {</span>
+<span class="cstat-no" title="statement not covered" >        m</span>odule = element.getAttribute(DATA_WIDGET).toLowerCase();
+<span class="cstat-no" title="statement not covered" >        if (seajs.data.alias[module]) {</span>
+          // 判断单个关闭
+<span class="cstat-no" title="statement not covered" >          if (!isDataAPIOff(element)) {</span>
+<span class="cstat-no" title="statement not covered" >            m</span>odules.push(module);
+<span class="cstat-no" title="statement not covered" >            e</span>lements.push(element);
+          }
+        }
+      }
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!modules.length) {</span>
+      // 没有模块，执行回调
+<span class="cstat-no" title="statement not covered" >      c</span>allback &amp;&amp; callback(0);
+<span class="cstat-no" title="statement not covered" >      r</span>eturn;
+    }
+&nbsp;
+    //统计
+<span class="cstat-no" title="statement not covered" >    if(window.messageBus){</span>
+<span class="cstat-no" title="statement not covered" >      w</span>indow.messageBus.fire('useModule', modules);
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    s</span>eajs.use(modules, <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >      v</span>ar i,
+        n = arguments.length,
+        element,
+        options;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      for (i = 0; i &lt; n; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        e</span>lement = elements[i];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        o</span>ptions = daParser(element);
+&nbsp;
+        // DATA_WIDGET_ROLE
+        // 是指将当前的 DOM 作为 role 的属性去实例化，
+        // 默认的 role 为 element
+<span class="cstat-no" title="statement not covered" >        o</span>ptions[element.getAttribute(DATA_WIDGET_ROLE) || 'element'] = element;
+&nbsp;
+        // 临时补丁，解决配置信息多的情况
+<span class="cstat-no" title="statement not covered" >        v</span>ar iframe = $('.design-iframe')[0],
+          CMS_WIDGET_CONFIG = window.CMS_WIDGET_CONFIG;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (iframe &amp;&amp; iframe[0]) {</span>
+<span class="cstat-no" title="statement not covered" >          C</span>MS_WIDGET_CONFIG = iframe[0].contentWindow.CMS_WIDGET_CONFIG;
+        }
+<span class="cstat-no" title="statement not covered" >        if (CMS_WIDGET_CONFIG &amp;&amp; CMS_WIDGET_CONFIG[modules[i]]) {</span>
+<span class="cstat-no" title="statement not covered" >          v</span>ar dataConfig = element.getAttribute('data-config');
+<span class="cstat-no" title="statement not covered" >          if (dataConfig) {</span>
+<span class="cstat-no" title="statement not covered" >            $</span>.extend(options, CMS_WIDGET_CONFIG[modules[i]][dataConfig]);
+          }
+        }
+&nbsp;
+        // 调用自动渲染接口
+<span class="cstat-no" title="statement not covered" >        n</span>ew arguments[i](options);
+&nbsp;
+        // 标记已经渲染过
+<span class="cstat-no" title="statement not covered" >        e</span>lement.setAttribute(DATA_WIDGET_AUTO_RENDERED, 'true');
+      }
+&nbsp;
+      // 在所有自动渲染完成后，执行回调
+<span class="cstat-no" title="statement not covered" >      c</span>allback &amp;&amp; callback(1);
+    });
+  };
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 22 2016 16:22:17 GMT+0800 (CST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

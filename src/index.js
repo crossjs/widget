@@ -656,4 +656,3 @@
   Widget.autoRender = require('./lib/autorender');
 
   module.exports = Widget;
-

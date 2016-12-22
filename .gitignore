@@ -7,3 +7,5 @@ doc
 .idea
 _site
 spm_modules
+.git
+npm-debug.log

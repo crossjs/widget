@@ -39,6 +39,8 @@
     var modules = [],
       elements = [];
 
+    if (!window.seajs) return;
+
     if (typeof root === 'function') {
       callback = root;
       root = null;
@@ -124,4 +126,3 @@
       callback && callback(1);
     });
   };
-

@@ -1,39 +1,5 @@
 var $ = require('jquery');
-var expect = require('expect.js');
-var Widget = require('../widget');
-
-
-describe('append', function() {
-  it('append sync', function() {
-    var widgetA = new Widget({
-        classPrefix: 'ue-test-a'
-      }),
-      widgetB = new Widget({
-        classPrefix: 'ue-test-b',
-        children: [widgetA]
-      });
-    widgetA.render();
-    widgetB.render();
-    expect($('.ue-test-b .ue-test-a').length).to.be(1);
-    widgetA.destroy();
-    widgetB.destroy();
-  });
-
-  it('append async', function() {
-    var widgetA = new Widget({
-        classPrefix: 'ue-test-a'
-      }),
-      widgetB = new Widget({
-        classPrefix: 'ue-test-b',
-        children: [widgetA]
-      });
-    widgetB.render();
-    widgetA.render();
-    expect($('.ue-test-b .ue-test-a').length).to.be(1);
-    widgetA.destroy();
-    widgetB.destroy();
-  });
-});
+var Widget = require('../../src');
 
 describe('autorender', function() {
   it('autoRender', function() {
@@ -75,16 +41,4 @@ describe('autorender', function() {
       expect(state).to.be(-1);
     });
   });
-});
-
-describe('daparser-ancient', function() {
-
-});
-
-describe('daparser', function() {
-
-});
-
-describe('widget', function() {
-  
 });

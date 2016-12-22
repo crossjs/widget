@@ -3,10 +3,6 @@
 Widget 是 UI 组件的基础类，约定了组件的基本生命周期，实现了一些通用功能。基于 Widget 可以构建出任何你想要的 Web 界面组件。
 ---
 
-
-*注意测试用例未从 qunit 转到 mocha*
-
-
 ## 使用说明
 
 Widget 继承了 base, 可使用其中包括 class、events、aspect等功能。
@@ -44,7 +40,7 @@ Widget 有一套完整的生命周期，控制着组件从创建到销毁的整�
 
 ```js
 // widget 唯一 id
-self.uniqueId = uniqueId(); 
+self.uniqueId = uniqueId();
 
 /**
  * 用于 DOM 事件绑定的 NAMESPACE
