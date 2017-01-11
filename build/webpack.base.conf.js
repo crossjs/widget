@@ -24,6 +24,12 @@ module.exports = {
     fallback: [path.join(__dirname, '../node_modules')]
   },
   module: {
+    loaders: [
+      {
+        test: /\.handlebars$/,
+        loader: 'handlebars-loader?runtime=handlebars/runtime'
+      }
+    ],
     preLoaders: [
       {
         test: /\.js$/,

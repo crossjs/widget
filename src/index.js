@@ -462,7 +462,8 @@
 
       // 处理模板与 content 为 text|html 的情况
       if (typeof template === 'function') {
-        html = template(self.data(), self.option('templateOptions'));
+        // 修复 handlebars-loader 只判断 arguments[1] 为 undefined 的情况
+        html = template(self.data(), self.option('templateOptions') || undefined);
       } else {
         html = self.option('content');
       }

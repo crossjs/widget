@@ -170,6 +170,64 @@ describe('widget', function() {
     widgetA.destroy();
   });
 
+  it('handlebars with helpers', function() {
+    var WidgetA = Widget.extend({
+    });
+    var widgetA = new WidgetA({
+      classPrefix: 'ue-test',
+      data: {
+        name: 'lzz',
+        sex: 'man'
+      },
+      template: require('./widget.handlebars'),
+      templateOptions: {
+        helpers: {
+          desp1: function() {
+            return this.name + '-' + this.sex
+          },
+          desp2: function(name, sex) {
+            return name + '#' + sex
+          }
+        }
+      }
+    });
+    widgetA.render();
+    expect($('.ue-test .t1').text()).to.be('lzz');
+    expect($('.ue-test .t2').text()).to.be('lzz-man');
+    expect($('.ue-test .t3').text()).to.be('lzz#man');
+    // for next tests
+    widgetA.destroy();
+  });
+
+  it('handlebars with partials', function() {
+    var WidgetA = Widget.extend({
+    });
+    var widgetA = new WidgetA({
+      classPrefix: 'ue-test',
+      data: {
+        list: [{
+          name: 'lzz',
+          sex: 'man'
+        }, {
+          name: 'hah',
+          sex: 'man'
+        }]
+      },
+      template: require('./list.handlebars'),
+      templateOptions: {
+        partials: {
+          item: require('./item.handlebars')
+        }
+      }
+    });
+    widgetA.render();
+    expect($('.ue-test li').length).to.be(2);
+    expect($('.ue-test li:first').text()).to.be('lzz - man');
+    expect($('.ue-test li:last').text()).to.be('hah - man');
+    // for next tests
+    widgetA.destroy();
+  });
+
   it('insert', function() {
     var WidgetA = Widget.extend({
     });
